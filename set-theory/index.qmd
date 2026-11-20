@@ -1,0 +1,19 @@
+---
+title: "Set Theory"
+description: "Study of sets, the foundation of modern mathematics"
+toc: false
+listing:
+  contents: "*.qmd"
+  sort: "date desc"
+  type: grid
+  grid-columns: 2
+  image-height: 220px
+  image-placeholder: /assets/images/thumbnails/default.jpg
+  fields: [image, date, title, description, categories]
+  categories: true
+  date-format: "D MMMM YYYY"
+page-layout: full
+---
+
+The zeroth stage. Set theory is the foundation of all mathematics,
+this study will lay the groundwork for the rest of our studies.

@@ -5,6 +5,7 @@ toc: false
 listing:
   id: recent
   contents:
+    - "set-theory/*.qmd"
     - "algebra/*.qmd"
     - "lie-theory/*.qmd"
     - "qft/*.qmd"

@@ -22,6 +22,8 @@ website:
     left:
       - text: "Notes"
         menu:
+          - text: "Set Theory"
+            href: set-theory/index.qmd
           - text: "Algebra"
             href: algebra/index.qmd
           - text: "Lie Theory"
