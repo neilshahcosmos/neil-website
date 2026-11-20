@@ -1,0 +1,42 @@
+# Preface {.unnumbered}
+
+This is the slow, linear version of the material in my
+[notes](https://neilshahcosmos.com): an attempt to write down, in the order I
+wish I had learned it, the group theory and representation theory that a
+physicist needs in order to read quantum field theory with understanding rather
+than faith.
+
+The intended reader is me a year ago — someone with a physics background, a
+working knowledge of calculus and linear algebra, and a growing suspicion that
+the phrase "transforms as a spinor" is hiding a precise mathematical statement.
+It is. The aim of this book is to make such statements precise without losing
+the physical motivation that makes them worth caring about.
+
+## What this book is and is not
+
+It is a set of notes, not a textbook. Proofs are given when they contain an idea
+and sketched when they are bookkeeping. Examples are chosen for their relevance
+to physics: the dihedral groups appear because molecules have them, $\SU(2)$
+appears early and often because spin exists, and the Lorentz group is the
+destination of the whole first half.
+
+It is not a substitute for the real references, which are cited throughout and
+collected in the [bibliography](references.qmd). In particular, Artin
+[@artin2011] for algebra, Hall [@hall2015] for Lie theory, and Woit
+[@woit2017] for the connection to quantum mechanics are the books this one
+leans on most.
+
+## Conventions
+
+Groups are written multiplicatively with identity $e$ unless they are obviously
+additive. Matrix groups are written $\GL(n,\C)$, $\SU(2)$, and so on; their Lie
+algebras in fraktur, $\gl(n,\C)$, $\su(2)$. Physicists' conventions are used for
+Hermitian generators and the factor of $i$ in $U = e^{-i\theta T}$; the
+mathematicians' convention is noted wherever the two collide. The Minkowski
+metric is mostly-minus, $\eta = \diag(+,-,-,-)$.
+
+## Status
+
+The book is being written in public. Chapters appear as they stabilise; the
+corresponding [notes](https://neilshahcosmos.com) usually come first and are
+rougher. Corrections are welcome.

@@ -1,0 +1,76 @@
+---
+title: "Wigner's classification: particles are representations"
+description: "The single sentence that makes group theory indispensable to QFT, and a map of what has to be learned to understand it."
+date: 2026-11-19
+categories: [poincaré-group, representations, roadmap]
+---
+
+::: {.callout-warning}
+## Status: outline
+
+This note is a map of territory I have not yet crossed. It records the
+statement and the dependencies so that the later notes have somewhere to point.
+Expect it to be rewritten.
+:::
+
+## The statement
+
+Wigner's 1939 theorem [@wigner1939] can be compressed to one sentence:
+
+> An elementary particle *is* a unitary irreducible representation of the
+> Poincaré group.
+
+Unpacking it is most of a first course in QFT. The space of states of a
+relativistic quantum system is a Hilbert space $\hilb$. Special relativity says
+the Poincaré group $\mathrm{ISO}^+(1,3)$ — Lorentz transformations together with
+spacetime translations — acts on physical states. Quantum mechanics says that
+action must preserve transition probabilities $\abs{\braket{\phi}{\psi}}^2$,
+and Wigner's earlier theorem says any such symmetry is implemented by a unitary
+(or antiunitary) operator, unique up to phase. So $\hilb$ carries a projective
+unitary representation of Poincaré. "Elementary" means the representation cannot
+be broken into smaller invariant pieces: it is **irreducible**.
+
+## What the classification says
+
+Irreducible unitary representations are labelled by the eigenvalues of the
+Casimir operators — the elements of the universal enveloping algebra that
+commute with everything. For Poincaré there are two:
+
+$$
+P^2 = P_\mu P^\mu = m^2, \qquad
+W^2 = W_\mu W^\mu = -m^2\, s(s+1),
+$$ {#eq-casimirs}
+
+where $P_\mu$ generates translations and $W_\mu = \half \eps_{\mu\nu\rho\sigma}
+J^{\nu\rho} P^\sigma$ is the Pauli–Lubanski vector. The first label in
+@eq-casimirs is the **mass**, the second is the **spin**. For $m > 0$ the
+little group fixing a rest-frame momentum is $\SO(3)$ — really its cover
+$\SU(2)$ — and $s \in \set{0, \half, 1, \tfrac32, \dots}$. For $m = 0$ the
+little group is the Euclidean group of the plane and the physical
+representations are labelled by **helicity** instead. The appearance of
+$\SU(2)$ rather than $\SO(3)$ is exactly the
+[double cover](../lie-theory/su2-covers-so3.qmd) at work.
+
+## What has to be understood first
+
+Reading the statement with full understanding requires, in roughly this order:
+
+1. **Lie groups and Lie algebras**, so that "Poincaré group" and "generators"
+   are precise objects and $\comm{J_{\mu\nu}}{P_\rho}$ is a computation rather
+   than a postulate.
+2. **Unitary representations and irreducibility**, including Schur's lemma,
+   which is why Casimirs act as scalars on irreducibles.
+3. **Covering groups and projective representations**, to see why
+   $\SL(2,\C)$ replaces $\SO^+(1,3)$ and where half-integer spin enters.
+4. **Induced representations** (Mackey's method of the little group), which is
+   how the infinite-dimensional unitary representations of a non-compact group
+   are actually constructed from finite-dimensional ones of a subgroup.
+
+Items 1–3 are the subject of the Lie theory section. Item 4 is where the
+mathematics gets properly new.
+
+## References to come back to
+
+Woit [@woit2017, ch. 42] gives the cleanest mathematical treatment at this
+level. Weinberg's *Quantum Theory of Fields*, vol. I, ch. 2 is the standard
+physics account.

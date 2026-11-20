@@ -1,0 +1,62 @@
+% LaTeX twin of _macros.html, used for PDF output (the book's pdf format
+% pulls this in via include-in-header). Keep the two files in sync.
+\usepackage{amsmath,amssymb,amsthm}
+
+% ---- Number systems ----
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\F}{\mathbb{F}}
+% ---- Matrix groups ----
+\newcommand{\GL}{\mathrm{GL}}
+\newcommand{\SL}{\mathrm{SL}}
+\newcommand{\SO}{\mathrm{SO}}
+\newcommand{\U}{\mathrm{U}}
+\newcommand{\SU}{\mathrm{SU}}
+\newcommand{\Sp}{\mathrm{Sp}}
+\newcommand{\Spin}{\mathrm{Spin}}
+% ---- Lie algebras ----
+\newcommand{\Lie}[1]{\mathfrak{#1}}
+\newcommand{\gl}{\mathfrak{gl}}
+\newcommand{\so}{\mathfrak{so}}
+\newcommand{\su}{\mathfrak{su}}
+\newcommand{\Ad}{\mathrm{Ad}}
+\newcommand{\ad}{\mathrm{ad}}
+% ---- Maps and operators ----
+\newcommand{\id}{\mathrm{id}}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\Stab}{Stab}
+\DeclareMathOperator{\Orb}{Orb}
+% ---- Calculus / physics ----
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\vb}[1]{\mathbf{#1}}
+\newcommand{\lagr}{\mathcal{L}}
+\newcommand{\hilb}{\mathcal{H}}
+\newcommand{\half}{\tfrac{1}{2}}
+\newcommand{\eps}{\varepsilon}
+% ---- Dirac notation ----
+\newcommand{\bra}[1]{\left\langle #1 \right|}
+\newcommand{\ket}[1]{\left| #1 \right\rangle}
+\newcommand{\braket}[2]{\left\langle #1 \middle| #2 \right\rangle}
+\newcommand{\expval}[1]{\left\langle #1 \right\rangle}
+% ---- Brackets ----
+\newcommand{\abs}[1]{\left| #1 \right|}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\inner}[2]{\left\langle #1, #2 \right\rangle}
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+\newcommand{\comm}[2]{\left[ #1, #2 \right]}
+% ---- Relations ----
+\newcommand{\defeq}{\mathrel{\vcenter{:}}=}
+\newcommand{\iso}{\cong}
+\newcommand{\normal}{\trianglelefteq}

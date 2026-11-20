@@ -1,0 +1,29 @@
+---
+title: "About"
+toc: false
+---
+
+I'm Neil Shah. By day I work on low-level systems software; the rest of the time
+I'm a physicist trying to understand quantum field theory properly, which has
+turned into a project of learning the mathematics underneath it: abstract
+algebra, representation theory, Lie groups, and eventually the geometry of gauge
+theory.
+
+This site is where that learning gets written down. The [notes](index.qmd) are
+atomic and linked, one concept at a time. The [book](book/index.html) is the
+slower, linear write-up of the same material once it has settled.
+
+## How the site is built
+
+Plain Markdown files with LaTeX math, rendered by [Quarto](https://quarto.org)
+and deployed by [Netlify](https://www.netlify.com) on every push to GitHub.
+Theorem environments, cross-references and the bibliography are all native
+Quarto features. The source is on
+[GitHub](https://github.com/neilshahcosmos) if you want to see how any of it is
+done.
+
+## Licence
+
+Unless otherwise noted, text and figures are licensed under
+[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/): share and adapt
+freely, credit the source, and keep the same licence.

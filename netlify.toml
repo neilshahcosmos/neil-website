@@ -1,0 +1,23 @@
+# Netlify configuration. Netlify reads this from the repo root on every push,
+# so there is nothing to configure in the Netlify UI beyond linking the repo.
+
+[build]
+  command = "bash netlify-build.sh"
+  publish = "_site"
+
+[build.environment]
+  # "latest" pulls the current Quarto release. For reproducible builds, pin
+  # this to the version you run locally (`quarto --version`), e.g. "1.7.32".
+  QUARTO_VERSION = "latest"
+
+# Long cache for fingerprinted assets, short for pages.
+[[headers]]
+  for = "/site_libs/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

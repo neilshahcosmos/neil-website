@@ -1,0 +1,38 @@
+---
+title: "Notes"
+subtitle: "Mathematics and physics, written down carefully enough to understand later."
+toc: false
+listing:
+  id: recent
+  contents:
+    - "algebra/*.qmd"
+    - "lie-theory/*.qmd"
+    - "qft/*.qmd"
+  sort: "date desc"
+  type: default
+  max-items: 8
+  fields: [date, title, description, categories]
+  categories: false
+  date-format: "D MMMM YYYY"
+page-layout: full
+---
+
+These are my working notes as I learn the mathematics behind quantum field
+theory: abstract algebra first, then Lie groups and their representations, then
+the physics that those structures organise. They are written for the version of
+me who will read them six months from now, which means they favour *why* over
+*what*, record the examples that made things click, and do not skip the
+calculations.
+
+Everything here is a work in progress. If you spot an error, I would be glad to
+hear about it.
+
+The notes are organised in three sections — [Algebra](algebra/index.qmd),
+[Lie Theory](lie-theory/index.qmd), and [Quantum Field Theory](qft/index.qmd) —
+and there is a longer, linear [book](book/index.html) that collects the polished
+material into one text.
+
+## Recent notes
+
+::: {#recent}
+:::

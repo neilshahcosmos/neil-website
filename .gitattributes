@@ -1,0 +1,11 @@
+# Keep shell scripts LF so they run on Netlify's Linux build image even when
+# checked out on Windows.
+*.sh   text eol=lf
+*.toml text eol=lf
+*.yml  text eol=lf
+*.qmd  text
+*.md   text
+*.scss text
+*.css  text
+*.bib  text
+*.tex  text

@@ -1,0 +1,17 @@
+---
+title: "Lie Theory"
+description: "Lie groups, Lie algebras and their representations: SO(3), SU(2), the Lorentz group, roots and weights."
+toc: false
+listing:
+  contents: "*.qmd"
+  sort: "date desc"
+  type: default
+  fields: [date, title, description, categories]
+  categories: true
+  date-format: "D MMMM YYYY"
+page-layout: full
+---
+
+The heart of the project. Matrix Lie groups and their tangent algebras, the
+exponential map, the representation theory of $\su(2)$ and $\su(3)$, and the
+Lorentz and Poincaré groups whose representations *are* the particles.

@@ -1,0 +1,141 @@
+# Linear algebra, the way representation theory needs it {#sec-linear-algebra}
+
+Representation theory is linear algebra with symmetry attached. Almost every
+object in this book is a vector space $V$ together with some matrices acting on
+it, and almost every theorem says something about how $V$ breaks up into pieces
+those matrices leave alone. This chapter collects the linear algebra that
+is needed, with emphasis on the parts a first course tends to underweight:
+complex vector spaces, inner products, and tensor products.
+
+## Vector spaces over $\C$
+
+Throughout, vector spaces are finite-dimensional and, unless stated otherwise,
+over the complex numbers. The reason is not that physics is complex-valued
+(though it is) but that $\C$ is algebraically closed: every linear operator on a
+complex vector space has an eigenvector. That single fact is what makes the
+representation theory of compact groups so clean, and it fails over $\R$ — a
+rotation of the plane has no real eigenvector.
+
+::: {#def-linear-map}
+## Linear map, $\End$, $\GL$
+
+A **linear map** $T : V \to W$ satisfies $T(av + bw) = aT(v) + bT(w)$. The
+space of all linear maps $V \to V$ is written $\End(V)$; the invertible ones
+form the **general linear group** $\GL(V)$ under composition. After a choice of
+basis, $\End(V) \iso \C^{n \times n}$ and $\GL(V) \iso \GL(n,\C)$.
+:::
+
+The distinction between $\GL(V)$ and $\GL(n,\C)$ matters more than it looks.
+A representation of a group $G$ will be a homomorphism $G \to \GL(V)$; choosing
+a basis turns it into matrices, and changing the basis conjugates all of those
+matrices simultaneously by the same $P \in \GL(n,\C)$. Two representations that
+differ only in this way are the same representation.
+
+## Inner products and unitarity
+
+::: {#def-inner-product}
+## Hermitian inner product
+
+A **Hermitian inner product** on $V$ is a map
+$\inner{\cdot}{\cdot} : V \times V \to \C$ that is conjugate-linear in the
+first slot, linear in the second, satisfies
+$\inner{v}{w} = \overline{\inner{w}{v}}$, and has $\inner{v}{v} > 0$ for
+$v \ne 0$.
+:::
+
+This is the physicist's convention — the ket is the linear slot — and in Dirac
+notation $\inner{v}{w} = \braket{v}{w}$. An operator $U$ is **unitary** if it
+preserves the inner product, $\inner{Uv}{Uw} = \inner{v}{w}$, equivalently
+$U^\dagger U = I$. The unitary operators on $V$ form the group $\U(V)$.
+
+The single most useful fact about unitary operators, for us, is this:
+
+::: {#prp-invariant-complement}
+## Invariant subspaces have invariant complements
+
+Let $U$ be unitary on $V$ and $W \subseteq V$ a subspace with $UW \subseteq W$.
+Then $UW^\perp \subseteq W^\perp$.
+:::
+
+::: {.proof}
+Take $v \in W^\perp$ and $w \in W$. Since $U$ is invertible and $UW \subseteq W$
+with $\dim UW = \dim W$, in fact $UW = W$, so $w = Uw'$ for some $w' \in W$.
+Then $\inner{Uv}{w} = \inner{Uv}{Uw'} = \inner{v}{w'} = 0$.
+:::
+
+Read forward, @prp-invariant-complement is the reason every finite-dimensional
+unitary representation decomposes into a direct sum of irreducibles
+(@sec-complete-reducibility, when we get there): if a unitary group action
+preserves a subspace, it preserves the orthogonal complement too, and one can
+keep splitting until nothing splits further.
+
+## Eigenvalues, diagonalisation, and commuting operators
+
+::: {#thm-spectral}
+## Spectral theorem
+
+A normal operator on a finite-dimensional complex inner product space — one
+with $TT^\dagger = T^\dagger T$ — is unitarily diagonalisable: there is an
+orthonormal basis of eigenvectors. In particular this holds for Hermitian
+($T = T^\dagger$) and unitary operators.
+:::
+
+The corollary that gets used constantly in physics is that **commuting
+Hermitian operators are simultaneously diagonalisable**. If $A$ and $B$ are
+Hermitian with $\comm{A}{B} = 0$, then $B$ preserves each eigenspace of $A$,
+and can be diagonalised within it. This is the linear-algebraic content of
+"a complete set of commuting observables," and also of the way weights and
+roots will be defined for a Lie algebra: one picks a maximal set of commuting
+generators (a Cartan subalgebra) and labels everything by their joint
+eigenvalues.
+
+## Tensor products
+
+Composite quantum systems live in tensor products, and so do most of the
+interesting representations.
+
+::: {#def-tensor-product}
+## Tensor product
+
+For vector spaces $V$ and $W$ with bases $\set{v_i}$ and $\set{w_j}$, the
+**tensor product** $V \otimes W$ is the vector space with basis the formal
+symbols $v_i \otimes w_j$, so $\dim(V \otimes W) = \dim V \cdot \dim W$. The
+map $(v, w) \mapsto v \otimes w$ is bilinear. Linear operators act factorwise:
+$(A \otimes B)(v \otimes w) = Av \otimes Bw$.
+:::
+
+::: {.callout-note}
+## Not every vector is a product
+
+Elements of the form $v \otimes w$ are called **pure tensors**; a general
+element of $V \otimes W$ is a sum of them and usually cannot be written as a
+single product. In quantum mechanics this is entanglement. In representation
+theory it is why $V \otimes W$ can contain irreducible pieces that look nothing
+like $V$ or $W$.
+:::
+
+The basis-free definition — $V \otimes W$ is the universal space receiving
+bilinear maps from $V \times W$ — will be given when we reach modules, where it
+pays for itself. For now the basis description is enough, together with the
+canonical isomorphisms
+$$
+V \otimes W \iso W \otimes V, \qquad
+(U \otimes V) \otimes W \iso U \otimes (V \otimes W), \qquad
+\Hom(V, W) \iso V^* \otimes W,
+$$ {#eq-tensor-isos}
+the last of which identifies matrices with tensors having one upper and one
+lower index.
+
+## Exercises
+
+::: {#exr-pauli-basis}
+Show that $\set{I, \sigma_1, \sigma_2, \sigma_3}$ is a basis of $\C^{2\times 2}$
+over $\C$, and that $\set{\sigma_1, \sigma_2, \sigma_3}$ is a basis over $\R$ of
+the traceless Hermitian matrices.
+:::
+
+::: {#exr-trace-inner-product}
+Show that $\inner{A}{B} = \Tr(A^\dagger B)$ is a Hermitian inner product on
+$\C^{n \times n}$, and that conjugation $A \mapsto UAU^\dagger$ by a unitary $U$
+is unitary with respect to it.
+:::

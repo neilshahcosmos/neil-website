@@ -1,0 +1,70 @@
+project:
+  type: website
+  output-dir: _site
+  # Note: the book lives in _book/ as its own Quarto project. Directories that
+  # start with "_" are ignored by this project, so it is rendered separately
+  # (see netlify-build.sh / publish.sh) into _site/book/.
+
+website:
+  title: "Neil Shah"
+  description: "Notes on mathematics and physics — algebra, Lie theory, and the road to quantum field theory."
+  site-url: https://neilshahcosmos.com
+  favicon: assets/favicon.svg
+  search:
+    location: navbar
+    type: overlay
+  navbar:
+    background: primary
+    pinned: true
+    left:
+      - text: "Notes"
+        menu:
+          - text: "Algebra"
+            href: algebra/index.qmd
+          - text: "Lie Theory"
+            href: lie-theory/index.qmd
+          - text: "Quantum Field Theory"
+            href: qft/index.qmd
+      - text: "Book"
+        href: book/index.html
+      - text: "About"
+        href: about.qmd
+    right:
+      - icon: github
+        href: https://github.com/neilshahcosmos
+        aria-label: GitHub
+  page-footer:
+    left: "© Neil Shah · Notes licensed [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)"
+    right: "Built with [Quarto](https://quarto.org)"
+  page-navigation: true
+  back-to-top-navigation: true
+
+format:
+  html:
+    theme:
+      light: [litera, theme.scss]
+      dark: [darkly, theme.scss]
+    css: styles.css
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    number-sections: false
+    html-math-method: mathjax
+    include-before-body: _macros.html
+    code-copy: true
+    link-external-newwindow: true
+    smooth-scroll: true
+    fig-cap-location: bottom
+
+# Theorem-style environments and cross-references work out of the box:
+#   ::: {#thm-schur}            -> Theorem 1 ... referenced with @thm-schur
+#   ::: {#def-group}            -> Definition
+#   ::: {#lem-...} {#prp-...} {#cor-...} {#exm-...} {#exr-...}
+#   ::: {.proof}                -> Proof. ... ∎
+#   $$ ... $$ {#eq-noether}     -> numbered equation, referenced with @eq-noether
+crossref:
+  eq-prefix: "Eq."
+
+# Shared bibliography. Cite with [@georgi1999] etc.; a "References" section
+# is appended automatically to any page that cites something.
+bibliography: references.bib

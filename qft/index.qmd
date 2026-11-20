@@ -1,0 +1,18 @@
+---
+title: "Quantum Field Theory"
+description: "Where the algebra meets the physics: Noether, Wigner's classification, spinors, gauge symmetry."
+toc: false
+listing:
+  contents: "*.qmd"
+  sort: "date desc"
+  type: default
+  fields: [date, title, description, categories]
+  categories: true
+  date-format: "D MMMM YYYY"
+page-layout: full
+---
+
+Notes on the parts of QFT that are group theory in disguise: conserved currents
+from Lie algebra actions, particles as unitary irreducible representations of
+the Poincaré group, why spinors transform the way they do, and gauge fields as
+connections valued in a Lie algebra.

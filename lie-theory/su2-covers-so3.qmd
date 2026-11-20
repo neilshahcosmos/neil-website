@@ -1,0 +1,129 @@
+---
+title: "SU(2) is the double cover of SO(3)"
+description: "The adjoint action of SU(2) on traceless Hermitian matrices gives a 2-to-1 homomorphism onto SO(3). This is where spin-½ comes from."
+date: 2026-11-19
+categories: [lie-groups, su(2), so(3), spin]
+---
+
+Every physics student learns that a spin-$\half$ state picks up a sign under a
+$2\pi$ rotation. The clean statement behind that fact is a homomorphism of Lie
+groups
+$$
+\Phi : \SU(2) \longrightarrow \SO(3), \qquad \ker \Phi = \set{\pm I},
+$$ {#eq-double-cover}
+which is surjective and exactly two-to-one. This note constructs $\Phi$ and
+checks the claims in @eq-double-cover.
+
+## Setting up: rotations as conjugation
+
+Let $\Lie{h}$ denote the real vector space of $2 \times 2$ traceless Hermitian
+matrices. It is three-dimensional, with basis the Pauli matrices
+$$
+\sigma_1 = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}, \quad
+\sigma_2 = \begin{pmatrix} 0 & -i \\ i & 0 \end{pmatrix}, \quad
+\sigma_3 = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix},
+$$
+so that every $X \in \Lie{h}$ is $X = \vb{x} \cdot \boldsymbol{\sigma}
+= x_1 \sigma_1 + x_2 \sigma_2 + x_3 \sigma_3$ for a unique $\vb{x} \in \R^3$.
+The key observation is that the ordinary Euclidean length is encoded in the
+determinant:
+$$
+\det(\vb{x} \cdot \boldsymbol\sigma) = -\abs{\vb{x}}^2 .
+$$ {#eq-det-norm}
+
+Now let $U \in \SU(2)$ act on $\Lie{h}$ by conjugation,
+$$
+\Ad_U : X \longmapsto U X U^\dagger .
+$$ {#eq-adjoint}
+This map is well defined on $\Lie{h}$ — conjugating by a unitary preserves
+Hermiticity, and $\Tr(UXU^\dagger) = \Tr(X) = 0$ — and it is linear in $X$.
+So $\Ad_U$ is a $3 \times 3$ real matrix in the Pauli basis. Call that matrix
+$\Phi(U)$.
+
+::: {#prp-phi-rotation}
+For every $U \in \SU(2)$, $\Phi(U) \in \SO(3)$, and
+$\Phi : \SU(2) \to \SO(3)$ is a group homomorphism.
+:::
+
+::: {.proof}
+*Orthogonal.* By @eq-det-norm and multiplicativity of the determinant,
+$\abs{\Phi(U)\vb{x}}^2 = -\det(U X U^\dagger) = -\det X = \abs{\vb{x}}^2$,
+so $\Phi(U)$ preserves lengths, hence is orthogonal.
+
+*Determinant one.* $\SU(2)$ is connected (it is the $3$-sphere, see
+@rem-s3), and $U \mapsto \det \Phi(U)$ is a continuous map into
+$\set{\pm 1}$ that takes the value $1$ at $U = I$. So it is identically $1$.
+
+*Homomorphism.* $\Ad_{UV}(X) = UVX(UV)^\dagger = U(VXV^\dagger)U^\dagger
+= \Ad_U \Ad_V (X)$, so $\Phi(UV) = \Phi(U)\Phi(V)$.
+:::
+
+::: {#rem-s3}
+## $\SU(2)$ is a 3-sphere
+
+Writing $U = \begin{pmatrix} a & -\bar b \\ b & \bar a \end{pmatrix}$ with
+$a, b \in \C$, the condition $\det U = 1$ becomes $\abs{a}^2 + \abs{b}^2 = 1$,
+which is the unit sphere $S^3 \subset \C^2 \iso \R^4$. In particular $\SU(2)$
+is compact, connected and simply connected — the last property is exactly what
+$\SO(3)$ lacks, and is why one of them covers the other and not the reverse.
+:::
+
+## The kernel
+
+::: {#thm-kernel}
+$\ker \Phi = \set{I, -I} \iso \Z/2\Z$.
+:::
+
+::: {.proof}
+$U \in \ker\Phi$ means $UXU^\dagger = X$, i.e. $U$ commutes with every traceless
+Hermitian matrix. Since every $2\times 2$ matrix is a complex linear combination
+of $I, \sigma_1, \sigma_2, \sigma_3$, such a $U$ commutes with *all* $2 \times 2$
+matrices, hence is a scalar $\lambda I$ (Schur's lemma, or a direct check).
+Then $\det U = \lambda^2 = 1$ forces $\lambda = \pm 1$. Conversely $\pm I$
+clearly act trivially.
+:::
+
+## Surjectivity, and what a $2\pi$ rotation does
+
+A direct calculation with $U = \exp(-i\theta\, \hat{\vb n}\cdot\boldsymbol\sigma/2)$
+shows that $\Phi(U)$ is the rotation by angle $\theta$ about the unit axis
+$\hat{\vb n}$:
+$$
+\Phi\!\left(e^{-i\theta\, \hat{\vb n}\cdot\boldsymbol\sigma/2}\right)
+= R_{\hat{\vb n}}(\theta).
+$$ {#eq-rotation}
+Since every rotation has this form, $\Phi$ is surjective, and by the first
+isomorphism theorem $\SO(3) \iso \SU(2)/\set{\pm I}$.
+
+Now set $\theta = 2\pi$ in @eq-rotation. The right-hand side is the identity
+rotation. The left-hand side is $\exp(-i\pi\, \hat{\vb n}\cdot\boldsymbol\sigma)
+= \cos\pi\, I - i \sin\pi\, \hat{\vb n}\cdot\boldsymbol\sigma = -I$. The two
+elements of $\SU(2)$ sitting over a given rotation are $U$ and $-U$, and a full
+turn takes you from one to the other.
+
+::: {.callout-important}
+## The physical content
+
+A quantum state is a ray in a Hilbert space $\hilb$, so overall phases are
+unobservable, and a "representation" of the rotation group on $\hilb$ only
+needs to hold up to phase. Such projective representations of $\SO(3)$ are the
+same thing as honest representations of its universal cover $\SU(2)$. The
+representations of $\SU(2)$ that do *not* descend to $\SO(3)$ — the ones where
+$-I$ acts as $-1$ rather than $+1$ — are precisely the half-integer spins. So
+the existence of fermions is, at bottom, the statement that $\pi_1(\SO(3)) =
+\Z/2\Z$.
+:::
+
+## Checks and loose ends
+
+- The Lie algebra version of @eq-double-cover is an *isomorphism*
+  $\su(2) \iso \so(3)$: the kernel is discrete, so it is invisible to the
+  tangent space at the identity. Covering maps are always Lie algebra
+  isomorphisms.
+- The same construction with $\SL(2,\C)$ acting on *all* $2 \times 2$ Hermitian
+  matrices (now including the identity direction, which carries the time
+  component) gives the double cover $\SL(2,\C) \to \SO^+(1,3)$ of the proper
+  orthochronous Lorentz group. That is the origin of Weyl spinors.
+- For the general theory of covering groups see Hall [@hall2015, ch. 1 and 5];
+  for the physics see Woit [@woit2017, ch. 6] and Schwichtenberg
+  [@schwichtenberg2018, ch. 3].

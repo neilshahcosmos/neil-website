@@ -1,0 +1,18 @@
+---
+title: "Algebra"
+description: "Groups, rings, modules and the representation theory of finite groups — the language everything else is written in."
+toc: false
+listing:
+  contents: "*.qmd"
+  sort: "date desc"
+  type: default
+  fields: [date, title, description, categories]
+  categories: true
+  date-format: "D MMMM YYYY"
+page-layout: full
+---
+
+The first stage. Groups and their homomorphisms, quotients and the isomorphism
+theorems, then rings and modules, and finally representations of finite groups:
+Schur's lemma, characters, and the orthogonality relations. The point of the
+whole section is to arrive at Lie theory with the right reflexes.

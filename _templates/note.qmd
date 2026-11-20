@@ -1,0 +1,36 @@
+---
+title: "TITLE"
+description: "One sentence that will appear in the section listing."
+date: DATE
+categories: [tag-one, tag-two]
+# draft: true   # uncomment to keep this note out of the published site
+---
+
+Opening paragraph: what this note is about and why it matters.
+
+## Section
+
+::: {#def-SLUG}
+## Name of the thing
+Definition in your own words.
+:::
+
+::: {#thm-SLUG}
+## Name
+Statement.
+:::
+
+::: {.proof}
+The one real idea, then the bookkeeping.
+:::
+
+$$
+E = mc^2
+$$ {#eq-SLUG}
+
+Refer back with @def-SLUG, @thm-SLUG, @eq-SLUG. Cite with [@artin2011].
+
+::: {.callout-note}
+## Why this matters
+The physics or the forward reference.
+:::

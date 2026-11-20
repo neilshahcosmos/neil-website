@@ -1,0 +1,100 @@
+# Groups and their representations {#sec-groups}
+
+::: {.callout-tip}
+## Chapter status
+Skeleton. The section headings are the plan; the content is being promoted
+from the [notes](https://neilshahcosmos.com/algebra/) as it stabilises.
+:::
+
+## Groups {#sec-groups-def}
+
+The definition, the first examples ($\Z/n$, $S_n$, $D_n$, $\GL(n,\C)$ and its
+subgroups), homomorphisms and isomorphisms. See for now
+[What a group is, and what it is for](https://neilshahcosmos.com/algebra/what-is-a-group.html).
+
+## Subgroups, cosets and quotients {#sec-quotients}
+
+Lagrange's theorem, normal subgroups, the quotient group $G/N$, and the first
+isomorphism theorem: a homomorphism $\varphi : G \to H$ induces
+$G / \ker\varphi \iso \im\varphi$. The running example is
+$\SU(2) / \set{\pm I} \iso \SO(3)$.
+
+## Representations {#sec-representations}
+
+::: {#def-representation}
+## Representation
+
+A **representation** of a group $G$ on a vector space $V$ is a homomorphism
+$\rho : G \to \GL(V)$. The dimension of $V$ is the dimension of the
+representation. A representation is **unitary** if $V$ carries an inner product
+and each $\rho(g)$ is unitary.
+:::
+
+Equivalence of representations, direct sums, the trivial representation, and
+the regular representation on $\C[G]$.
+
+## Complete reducibility {#sec-complete-reducibility}
+
+A subspace $W \subseteq V$ is **invariant** if $\rho(g)W \subseteq W$ for all
+$g$; a representation is **irreducible** if it has no invariant subspaces
+other than $0$ and $V$.
+
+::: {#thm-maschke}
+## Maschke
+
+Every finite-dimensional representation of a finite group over $\C$ is a direct
+sum of irreducible representations.
+:::
+
+::: {.proof}
+*Sketch.* Average any inner product over the group,
+$\inner{v}{w}_G \defeq \frac{1}{\abs{G}} \sum_{g \in G} \inner{\rho(g)v}{\rho(g)w}$,
+to obtain one for which $\rho$ is unitary. Then apply
+@prp-invariant-complement repeatedly.
+:::
+
+The same averaging argument, with the sum replaced by an invariant integral
+(Haar measure), is what makes the representation theory of *compact* Lie
+groups such as $\SU(2)$ behave like that of finite groups. It fails for
+non-compact groups such as the Lorentz group, which is why the
+finite-dimensional spinor representations of $\SL(2,\C)$ are not unitary and
+why Wigner's classification has to work with infinite-dimensional ones.
+
+## Schur's lemma {#sec-schur}
+
+::: {#lem-schur}
+## Schur
+
+Let $V$ and $W$ be irreducible representations of $G$ over $\C$, and
+$T : V \to W$ a linear map commuting with the action of $G$. Then either
+$T = 0$ or $T$ is an isomorphism; and if $V = W$, then $T = \lambda\, \id_V$
+for some $\lambda \in \C$.
+:::
+
+::: {.proof}
+$\ker T$ and $\im T$ are invariant subspaces, so each is $0$ or everything;
+this gives the first statement. For the second, let $\lambda$ be an eigenvalue
+of $T$ (this is where $\C$ is used); then $T - \lambda\,\id$ commutes with $G$
+and has nontrivial kernel, so it is zero.
+:::
+
+Schur's lemma is the reason a Casimir operator — an operator built from the
+generators that commutes with all of them — acts as a scalar on each irreducible
+representation, and therefore can be used to *label* irreducibles. Mass and
+spin, in @sec-wigner, are exactly such labels.
+
+## Characters {#sec-characters}
+
+The character $\chi_\rho(g) = \Tr \rho(g)$, class functions, the orthogonality
+relations, character tables for $S_3$ and $D_4$, and the decomposition of a
+representation by taking inner products of characters.
+
+## Looking ahead {#sec-wigner}
+
+Everything in this chapter is finite-dimensional and about finite groups. The
+next chapters replace "finite group" with "Lie group," at which point
+representations become differentiable, the Lie algebra enters, and the
+machinery above survives almost intact for compact groups. The payoff is
+Wigner's theorem that particles are irreducible unitary representations of the
+Poincaré group, previewed in
+[the notes](https://neilshahcosmos.com/qft/wigner-classification.html).

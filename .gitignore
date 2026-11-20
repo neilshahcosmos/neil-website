@@ -1,0 +1,22 @@
+# Quarto output and caches
+/_site/
+/.quarto/
+/_book/.quarto/
+/_book/_book/
+/_freeze/
+*_files/
+*_cache/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# LaTeX intermediates (if you render the PDF locally)
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
