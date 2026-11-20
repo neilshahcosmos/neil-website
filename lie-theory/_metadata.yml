@@ -1,0 +1,3 @@
+# Applies to every page in this folder (section index + notes).
+# Path is relative to the pages in this folder.
+title-block-banner: ../assets/images/banners/lie-theory.jpg

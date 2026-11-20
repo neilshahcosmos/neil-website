@@ -3,6 +3,10 @@ title: "TITLE"
 description: "One sentence that will appear in the section listing."
 date: DATE
 categories: [tag-one, tag-two]
+# Thumbnail shown in listings (and in link previews). Generate one with
+#   python _tools/space-art.py thumbnail SLUG
+# or drop any image at that path. Without it, a default galaxy is shown.
+# image: /assets/images/thumbnails/SLUG.jpg
 # draft: true   # uncomment to keep this note out of the published site
 ---
 

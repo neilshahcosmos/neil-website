@@ -3,6 +3,7 @@ title: "SU(2) is the double cover of SO(3)"
 description: "The adjoint action of SU(2) on traceless Hermitian matrices gives a 2-to-1 homomorphism onto SO(3). This is where spin-½ comes from."
 date: 2026-11-19
 categories: [lie-groups, su(2), so(3), spin]
+image: /assets/images/thumbnails/su2-covers-so3.jpg
 ---
 
 Every physics student learns that a spin-$\half$ state picks up a sign under a

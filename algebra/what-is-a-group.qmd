@@ -3,6 +3,7 @@ title: "What a group is, and what it is for"
 description: "The definition, the first examples that matter for physics, and Lagrange's theorem as a first taste of structure."
 date: 2026-11-19
 categories: [groups, foundations]
+image: /assets/images/thumbnails/what-is-a-group.jpg
 ---
 
 A group is the mathematical object that captures *symmetry* — not any particular

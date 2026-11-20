@@ -3,6 +3,7 @@ title: "Wigner's classification: particles are representations"
 description: "The single sentence that makes group theory indispensable to QFT, and a map of what has to be learned to understand it."
 date: 2026-11-19
 categories: [poincaré-group, representations, roadmap]
+image: /assets/images/thumbnails/wigner-classification.jpg
 ---
 
 ::: {.callout-warning}

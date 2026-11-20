@@ -20,3 +20,5 @@ desktop.ini
 *.out
 *.toc
 *.synctex.gz
+
+**/*.quarto_ipynb

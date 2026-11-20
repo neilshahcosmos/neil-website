@@ -95,6 +95,27 @@ notes automatically from their front matter (`title`, `description`, `date`,
 `categories`). Add `draft: true` to a note's front matter to keep it out of the
 published site while you work on it.
 
+## Banners and thumbnails
+
+Every page has a space-art banner behind its title, and every note gets a
+thumbnail card in the listings.
+
+- **Site banner**: `assets/images/banner.jpg`, set by `title-block-banner` in
+  `_quarto.yml` (used by the homepage and About).
+- **Section banners**: `assets/images/banners/<section>.jpg`, set in each
+  section's `_metadata.yml`, so the section page and all its notes share one.
+- **Per-page override**: in a note's front matter,
+  `title-block-banner: ../assets/images/banners/whatever.jpg`, or `false` for none.
+- **Thumbnails**: `image: /assets/images/thumbnails/<slug>.jpg` in a note's front
+  matter. Notes without one show `thumbnails/default.jpg`. The template has
+  this line commented out with the slug already filled in.
+- **Making new art**: `python _tools/space-art.py thumbnail <slug>` generates an
+  original galaxy or nebula (needs `pip install numpy scipy pillow`). Add
+  `--style galaxy|nebula`, `--palette violet|teal|ember|blue`, `--seed N` to
+  steer it; `banner <name>` makes a wide banner instead. Any JPG/PNG works
+  too: NASA and ESA/Webb images are free to use with credit.
+- Banner/card styling (gradient overlay, hover effects) lives in `styles.css`.
+
 ## Writing math
 
 Inline `$...$`, display `$$...$$`. Macros from `_macros.html` work everywhere:

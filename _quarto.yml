@@ -1,6 +1,8 @@
 project:
   type: website
   output-dir: _site
+  resources:
+    - assets/images/**
   # Note: the book lives in _book/ as its own Quarto project. Directories that
   # start with "_" are ignored by this project, so it is rendered separately
   # (see netlify-build.sh / publish.sh) into _site/book/.
@@ -14,7 +16,8 @@ website:
     location: navbar
     type: overlay
   navbar:
-    background: primary
+    background: "#0d0b24"   # deep-space navy to match the banners (was: primary)
+    foreground: "#e8e6ff"
     pinned: true
     left:
       - text: "Notes"
@@ -55,6 +58,11 @@ format:
     link-external-newwindow: true
     smooth-scroll: true
     fig-cap-location: bottom
+    # Space-art banner behind each page's title block. Section folders override
+    # this in their _metadata.yml; any page can override it in its front matter
+    # with `title-block-banner: ../assets/images/banners/<file>.jpg` (or `false`).
+    title-block-banner: assets/images/banner.jpg
+    title-block-banner-color: "#ffffff"
 
 # Theorem-style environments and cross-references work out of the box:
 #   ::: {#thm-schur}            -> Theorem 1 ... referenced with @thm-schur

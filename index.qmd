@@ -8,10 +8,14 @@ listing:
     - "algebra/*.qmd"
     - "lie-theory/*.qmd"
     - "qft/*.qmd"
+    - "!*/index.qmd"
   sort: "date desc"
-  type: default
-  max-items: 8
-  fields: [date, title, description, categories]
+  type: grid
+  grid-columns: 3
+  image-height: 200px
+  image-placeholder: /assets/images/thumbnails/default.jpg
+  max-items: 9
+  fields: [image, date, title, description]
   categories: false
   date-format: "D MMMM YYYY"
 page-layout: full
