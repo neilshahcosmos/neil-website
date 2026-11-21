@@ -3,7 +3,8 @@
 
 [build]
   command = "bash netlify-build.sh"
-  publish = "_site"
+  # dist/ holds the main site at its root and the Quarto notes in dist/notes/.
+  publish = "dist"
 
 [build.environment]
   # "latest" pulls the current Quarto release. For reproducible builds, pin
@@ -12,7 +13,7 @@
 
 # Long cache for fingerprinted assets, short for pages.
 [[headers]]
-  for = "/site_libs/*"
+  for = "/notes/site_libs/*"
   [headers.values]
     Cache-Control = "public, max-age=604800"
 
@@ -21,3 +22,37 @@
   [headers.values]
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+
+# The notes used to live at the root of the domain. Send old links (bookmarks,
+# search results, links from elsewhere) to their new home under /notes/.
+# These only fire when no file exists at the old path, so if the main site
+# later gets its own /about.html, delete that rule.
+[[redirects]]
+  from = "/algebra/*"
+  to = "/notes/algebra/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/lie-theory/*"
+  to = "/notes/lie-theory/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/qft/*"
+  to = "/notes/qft/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/set-theory/*"
+  to = "/notes/set-theory/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/book/*"
+  to = "/notes/book/:splat"
+  status = 301
+
+[[redirects]]
+  from = "/about.html"
+  to = "/notes/about.html"
+  status = 301

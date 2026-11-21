@@ -1,5 +1,5 @@
 # The book is its own Quarto project, rendered into the website's output
-# folder so it is served at https://neilshahcosmos.com/book/.
+# folder so it is served at https://neilshahcosmos.com/notes/book/.
 #
 #   quarto preview _book            # work on the book
 #   quarto render  _book --to html  # what Netlify runs (see netlify-build.sh)
@@ -9,7 +9,7 @@
 
 project:
   type: book
-  output-dir: ../_site/book
+  output-dir: ../../dist/notes/book
 
 book:
   title: "Group Theory for Quantum Field Theory"
@@ -17,7 +17,7 @@ book:
   author: "Neil Shah"
   date: today
   date-format: "D MMMM YYYY"
-  site-url: https://neilshahcosmos.com/book/
+  site-url: https://neilshahcosmos.com/notes/book/
   chapters:
     - index.qmd
     - part: "Foundations"
@@ -30,7 +30,7 @@ book:
     search: true
     tools:
       - icon: house
-        href: https://neilshahcosmos.com
+        href: https://neilshahcosmos.com/notes/
         text: "Back to the notes"
   page-footer:
     left: "© Neil Shah · [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)"
@@ -54,7 +54,7 @@ format:
 
   # PDF output. Commented out so the Netlify build (which has no LaTeX) stays
   # fast and simple. To build locally: `quarto install tinytex`, uncomment,
-  # then `quarto render _book --to pdf`. The PDF lands in _site/book/.
+  # then `quarto render _book --to pdf`. The PDF lands in dist/notes/book/.
   # pdf:
   #   documentclass: scrbook
   #   papersize: a4

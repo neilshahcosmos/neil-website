@@ -1,9 +1,12 @@
-# Quarto output and caches
+# Build output (main site + notes) and Quarto caches
+/dist/
 /_site/
-/.quarto/
-/_book/.quarto/
-/_book/_book/
-/_freeze/
+/notes/_site/
+/notes/.quarto/
+/notes/_book/.quarto/
+/notes/_book/_book/
+/notes/_freeze/
+/_to_delete/
 *_files/
 *_cache/
 

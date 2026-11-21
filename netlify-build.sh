@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Netlify build script: install Quarto, render the website and the book.
+# Netlify build script: assemble dist/ from the main site (home/) and the
+# Quarto notes (notes/ -> dist/notes/, book -> dist/notes/book/).
 # Runs on Netlify's Ubuntu build image; invoked from netlify.toml.
 set -euo pipefail
 
@@ -25,11 +26,19 @@ fi
 export PATH="$(dirname "${QUARTO_BIN}"):${PATH}"
 quarto --version
 
-echo "==> Rendering website"
-quarto render
+echo "==> Main site: copying home/ to dist/"
+rm -rf dist
+mkdir -p dist
+# home/ is plain static files for now. If the main site later uses a build
+# tool, replace this line with its build command, writing its output to dist/
+# (and make sure it does not wipe dist/notes).
+cp -R home/. dist/
 
-echo "==> Rendering book into _site/book"
-quarto render _book --to html
+echo "==> Rendering notes into dist/notes"
+(cd notes && quarto render)
+
+echo "==> Rendering book into dist/notes/book"
+(cd notes && quarto render _book --to html)
 
 echo "==> Done. Output:"
-find _site -maxdepth 2 -type d | sort
+find dist -maxdepth 2 -type d | sort

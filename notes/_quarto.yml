@@ -1,16 +1,18 @@
 project:
   type: website
-  output-dir: _site
+  # Rendered into ../dist/notes so the site is served at neilshahcosmos.com/notes/.
+  # The main site at the root of the domain lives in ../home (see netlify-build.sh).
+  output-dir: ../dist/notes
   resources:
     - assets/images/**
   # Note: the book lives in _book/ as its own Quarto project. Directories that
   # start with "_" are ignored by this project, so it is rendered separately
-  # (see netlify-build.sh / publish.sh) into _site/book/.
+  # (see netlify-build.sh / publish.sh) into ../dist/notes/book/.
 
 website:
   title: "Neil Shah"
   description: "Notes on mathematics and physics — algebra, Lie theory, and the road to quantum field theory."
-  site-url: https://neilshahcosmos.com
+  site-url: https://neilshahcosmos.com/notes
   favicon: assets/favicon.svg
   search:
     location: navbar

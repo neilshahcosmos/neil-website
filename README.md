@@ -1,34 +1,48 @@
 # neilshahcosmos.com
 
-Math and physics notes, written in Markdown with LaTeX, rendered by
-[Quarto](https://quarto.org), deployed by Netlify on every push.
+Two sites deployed together by Netlify on every push:
+
+- **neilshahcosmos.com**: the main site, from `home/`
+- **neilshahcosmos.com/notes/**: math and physics notes, written in Markdown
+  with LaTeX and rendered by [Quarto](https://quarto.org), from `notes/`
+  (the book is at `/notes/book/`)
 
 ```
 .
-├── _quarto.yml          site config: nav, theme, math, bibliography
-├── index.qmd            homepage (lists recent notes)
-├── about.qmd
-├── algebra/             section: index.qmd (auto listing) + one .qmd per note
-├── lie-theory/
-├── qft/
-├── _book/               the book — a separate Quarto project, served at /book/
-│   ├── _quarto.yml      chapter order lives here
-│   └── *.qmd            one file per chapter
-├── _templates/note.qmd  template used by new-note.sh
-├── _macros.html         LaTeX macros available on every HTML page
-├── macros.tex           same macros for PDF output
-├── theme.scss           fonts, spacing, theorem styling (shared with the book)
-├── styles.css           quick CSS tweaks (website only)
-├── references.bib       shared bibliography
-├── netlify.toml         Netlify build settings
-├── netlify-build.sh     installs Quarto on Netlify, renders site + book
-├── publish.sh           render locally → commit → push (= deploy)
-├── preview.sh           live preview of site or book
-└── new-note.sh          create a note from the template
+├── home/                    main site (plain static files for now)
+├── notes/                   the Quarto project for the notes
+│   ├── _quarto.yml          site config: nav, theme, math, bibliography
+│   ├── index.qmd            notes homepage (lists recent notes)
+│   ├── about.qmd
+│   ├── algebra/             section: index.qmd (auto listing) + one .qmd per note
+│   ├── lie-theory/
+│   ├── qft/
+│   ├── set-theory/
+│   ├── _book/               the book, a separate Quarto project, served at /notes/book/
+│   │   ├── _quarto.yml      chapter order lives here
+│   │   └── *.qmd            one file per chapter
+│   ├── _templates/note.qmd  template used by new-note.sh
+│   ├── _tools/space-art.py  generates banner/thumbnail art
+│   ├── assets/              favicon, banners, thumbnails
+│   ├── _macros.html         LaTeX macros available on every HTML page
+│   ├── macros.tex           same macros for PDF output
+│   ├── theme.scss           fonts, spacing, theorem styling (shared with the book)
+│   ├── styles.css           quick CSS tweaks (notes site only)
+│   └── references.bib       shared bibliography
+├── netlify.toml             Netlify build settings + redirects from old URLs
+├── netlify-build.sh         builds home/ into dist/, notes into dist/notes/
+├── publish.sh               render check → commit → push (= deploy)
+├── preview.sh               live preview of the notes or the book
+└── new-note.sh              create a note from the template
 ```
 
-Folders beginning with `_` are ignored by the website project; that is why the
-book, the templates and the macro file have that prefix.
+Everything is built into `dist/` (not committed): the main site at its root,
+the notes in `dist/notes/`. Inside `notes/`, folders beginning with `_` are
+ignored by the notes project; that is why the book, the templates and the
+macro file have that prefix.
+
+The notes used to live at the root of the domain; `netlify.toml` redirects
+the old addresses (`/algebra/...`, `/book/...`, etc.) to `/notes/...`.
 
 ## One-time setup
 
@@ -71,7 +85,7 @@ different repository** and choose the new repo. (Or delete the old site and
 under **Domain management**. DNS does not need to change either way.)
 
 Netlify reads `netlify.toml`, so the build command (`bash netlify-build.sh`)
-and publish directory (`_site`) are picked up automatically. Leave the UI's
+and publish directory (`dist`) are picked up automatically. Leave the UI's
 build settings empty or matching. The first deploy starts as soon as the repo
 is linked; watch it under **Deploys**.
 
@@ -81,7 +95,7 @@ locally so Netlify and your machine always agree.
 ## Daily workflow
 
 ```bash
-./new-note.sh lie-theory "Roots and weights of su(3)"   # creates lie-theory/roots-and-weights-of-su-3.qmd
+./new-note.sh lie-theory "Roots and weights of su(3)"   # creates notes/lie-theory/roots-and-weights-of-su-3.qmd
 ./preview.sh                                              # write, watch it render
 ./publish.sh "Add su(3) roots and weights"               # render check → commit → push → Netlify deploys
 ```
@@ -90,7 +104,7 @@ That's it. `publish.sh` renders locally first so a broken cross-reference or
 YAML typo fails on your machine rather than on Netlify; use
 `SKIP_RENDER=1 ./publish.sh` to skip that.
 
-Section listing pages (`algebra/index.qmd` etc.) and the homepage pick up new
+Section listing pages (`notes/algebra/index.qmd` etc.) and the homepage pick up new
 notes automatically from their front matter (`title`, `description`, `date`,
 `categories`). Add `draft: true` to a note's front matter to keep it out of the
 published site while you work on it.
@@ -100,7 +114,7 @@ published site while you work on it.
 Every page has a space-art banner behind its title, and every note gets a
 thumbnail card in the listings.
 
-- **Site banner**: `assets/images/banner.jpg`, set by `title-block-banner` in
+- **Site banner**: `notes/assets/images/banner.jpg`, set by `title-block-banner` in
   `_quarto.yml` (used by the homepage and About).
 - **Section banners**: `assets/images/banners/<section>.jpg`, set in each
   section's `_metadata.yml`, so the section page and all its notes share one.
@@ -109,7 +123,7 @@ thumbnail card in the listings.
 - **Thumbnails**: `image: /assets/images/thumbnails/<slug>.jpg` in a note's front
   matter. Notes without one show `thumbnails/default.jpg`. The template has
   this line commented out with the slug already filled in.
-- **Making new art**: `python _tools/space-art.py thumbnail <slug>` generates an
+- **Making new art**: from `notes/`, `python _tools/space-art.py thumbnail <slug>` generates an
   original galaxy or nebula (needs `pip install numpy scipy pillow`). Add
   `--style galaxy|nebula`, `--palette violet|teal|ember|blue`, `--seed N` to
   steer it; `banner <name>` makes a wide banner instead. Any JPG/PNG works
@@ -159,14 +173,14 @@ Full reference: <https://quarto.org/docs/authoring/markdown-basics.html> and
 
 ## The book
 
-Chapters are listed in order in `_book/_quarto.yml` under `book.chapters`.
+Chapters are listed in order in `notes/_book/_quarto.yml` under `book.chapters`.
 Add a file, add it to the list. Level-1 heading = chapter title; give it an id
 (`# Title {#sec-id}`) to cross-reference it.
 
 PDF: install TinyTeX once (`quarto install tinytex`), uncomment the `pdf:`
-block in `_book/_quarto.yml`, and run `quarto render _book --to pdf`. The PDF is
-written to `_site/book/`. Netlify only renders HTML, so if you want the PDF
-online, commit it (e.g. copy it to `downloads/` in the website) and link to it.
+block in `notes/_book/_quarto.yml`, and run `quarto render _book --to pdf` from `notes/`. The PDF is
+written to `dist/notes/book/`. Netlify only renders HTML, so if you want the PDF
+online, commit it (e.g. copy it to `notes/downloads/`) and link to it.
 
 ## Troubleshooting
 

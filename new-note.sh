@@ -2,9 +2,9 @@
 # Create a new note from the template.
 #   ./new-note.sh <section> "<Title>"
 #   ./new-note.sh lie-theory "Roots and weights of su(3)"
-# Sections: algebra, lie-theory, qft (any existing folder with an index.qmd).
+# Sections: any folder in notes/ with an index.qmd (algebra, lie-theory, qft, set-theory, ...).
 set -euo pipefail
-cd "$(dirname "${BASH_SOURCE[0]}")"
+cd "$(dirname "${BASH_SOURCE[0]}")/notes"
 
 section="${1:-}"
 title="${2:-}"
@@ -36,4 +36,4 @@ sed -e "s/^title: \"TITLE\"/title: \"${esc_title}\"/" \
     -e "s/SLUG/${slug}/g" \
     _templates/note.qmd > "${target}"
 
-echo "Created ${target}"
+echo "Created notes/${target}"

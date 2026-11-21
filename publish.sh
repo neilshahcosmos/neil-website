@@ -23,10 +23,10 @@ if [[ "${SKIP_RENDER:-0}" != "1" ]]; then
     echo "   or run with SKIP_RENDER=1 to let Netlify do the rendering." >&2
     exit 1
   fi
-  echo "==> Rendering website (local check)"
-  quarto render
+  echo "==> Rendering notes (local check)"
+  (cd notes && quarto render)
   echo "==> Rendering book (local check)"
-  quarto render _book --to html
+  (cd notes && quarto render _book --to html)
 fi
 
 echo "==> Committing"
