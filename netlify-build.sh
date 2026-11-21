@@ -30,7 +30,11 @@ quarto --version
 echo "==> Building the main site (Astro) into dist/"
 rm -rf dist
 # The main site goes first: Astro writes into dist/, then Quarto adds dist/notes/.
-(cd home && npm ci --no-audit --no-fund && npm run build)
+# `npm install` (not `npm ci`): it still installs the versions pinned in
+# package-lock.json, but tolerates a known npm quirk where optional
+# WebAssembly-only packages (@emnapi/*) are missing from the lock file,
+# which makes `npm ci` fail on Netlify.
+(cd home && npm install --no-audit --no-fund && npm run build)
 
 echo "==> Rendering notes into dist/notes"
 (cd notes && quarto render)
