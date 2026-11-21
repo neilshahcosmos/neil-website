@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Netlify build script: assemble dist/ from the main site (home/) and the
 # Quarto notes (notes/ -> dist/notes/, book -> dist/notes/book/).
+# The main site is an Astro project; Netlify's build image already has Node.
 # Runs on Netlify's Ubuntu build image; invoked from netlify.toml.
 set -euo pipefail
 
@@ -26,13 +27,10 @@ fi
 export PATH="$(dirname "${QUARTO_BIN}"):${PATH}"
 quarto --version
 
-echo "==> Main site: copying home/ to dist/"
+echo "==> Building the main site (Astro) into dist/"
 rm -rf dist
-mkdir -p dist
-# home/ is plain static files for now. If the main site later uses a build
-# tool, replace this line with its build command, writing its output to dist/
-# (and make sure it does not wipe dist/notes).
-cp -R home/. dist/
+# The main site goes first: Astro writes into dist/, then Quarto adds dist/notes/.
+(cd home && npm ci --no-audit --no-fund && npm run build)
 
 echo "==> Rendering notes into dist/notes"
 (cd notes && quarto render)

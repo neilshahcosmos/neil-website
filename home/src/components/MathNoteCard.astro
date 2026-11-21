@@ -1,0 +1,32 @@
+---
+import type { MathNote } from '../lib/garden';
+import { fmtDate } from '../lib/garden';
+interface Props { note: MathNote }
+const { note } = Astro.props;
+---
+<a class="mcard" href={note.url} data-preview>
+  <div class="thumb">
+    {note.image ? <img src={note.image} alt="" loading="lazy" /> : <div class="thumb-fallback" />}
+  </div>
+  <div class="text">
+    <span class="eyebrow">{note.section} · {fmtDate(note.date)}</span>
+    <h3>{note.title}</h3>
+    {note.description && <p>{note.description}</p>}
+  </div>
+</a>
+<style>
+  .mcard {
+    display: grid; grid-template-columns: 132px 1fr; gap: 1rem; align-items: center;
+    padding: 0.7rem; border-radius: var(--radius);
+    border: 1px solid var(--border); background: var(--surface);
+    color: var(--text); text-decoration: none;
+    transition: border-color 0.25s, background 0.25s, transform 0.25s;
+  }
+  .mcard:hover { border-color: var(--border-strong); background: var(--surface-hover); transform: translateY(-2px); }
+  .thumb { aspect-ratio: 4 / 3; border-radius: 9px; overflow: hidden; background: #05050d; }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .thumb-fallback { width: 100%; height: 100%; background: radial-gradient(circle at 60% 40%, rgba(127,216,234,0.35), transparent 60%), #08081a; }
+  h3 { font-size: 1.12rem; margin: 0.2rem 0 0.25rem; }
+  p { margin: 0; color: var(--muted); font-size: 0.9rem; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  @media (max-width: 520px) { .mcard { grid-template-columns: 92px 1fr; } }
+</style>

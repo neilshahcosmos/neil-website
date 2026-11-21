@@ -1,0 +1,41 @@
+---
+// /essays/, /thoughts/, /projects/, /reviews/
+import Base from '../../layouts/Base.astro';
+import EntryCard from '../../components/EntryCard.astro';
+import { entries, KINDS, KIND_LABEL, type Kind } from '../../lib/garden';
+
+export function getStaticPaths() {
+  return KINDS.map((kind) => ({ params: { kind } }));
+}
+const kind = Astro.params.kind as Kind;
+const list = await entries(kind);
+const label = KIND_LABEL[kind];
+const variant = kind === 'thoughts' ? 'row' : kind === 'reviews' ? 'review' : 'feature';
+---
+<Base title={label.many} description={label.blurb}>
+  <div class="wrap page">
+    <header class="page-head">
+      <p class="eyebrow">The garden</p>
+      <h1>{label.many}</h1>
+      <p class="lede">{label.blurb}</p>
+    </header>
+    {list.length === 0 ? (
+      <p class="empty">Nothing here yet. The first {label.one.toLowerCase()} is still a cloud of gas.</p>
+    ) : (
+      <div class:list={['list', `list-${variant}`]}>
+        {list.map((e) => <EntryCard entry={e} variant={variant} />)}
+      </div>
+    )}
+  </div>
+</Base>
+<style>
+  .page { padding-top: 4rem; }
+  .page-head { margin-bottom: 2.5rem; max-width: 60ch; }
+  .page-head h1 { font-size: var(--step-5); font-weight: 400; margin-bottom: 0.3em; }
+  .lede { color: var(--muted); font-size: var(--step-1); margin: 0; }
+  .list { display: grid; gap: 1.3rem; }
+  .list-feature { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+  .list-review { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .list-row { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 0.1rem 2rem; margin-inline: -0.9rem; }
+  .empty { color: var(--muted); font-style: italic; }
+</style>

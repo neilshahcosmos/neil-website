@@ -10,12 +10,19 @@
   # "latest" pulls the current Quarto release. For reproducible builds, pin
   # this to the version you run locally (`quarto --version`), e.g. "1.7.32".
   QUARTO_VERSION = "latest"
+  # Node for the Astro main site in home/.
+  NODE_VERSION = "22"
 
 # Long cache for fingerprinted assets, short for pages.
 [[headers]]
   for = "/notes/site_libs/*"
   [headers.values]
     Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
   for = "/*"

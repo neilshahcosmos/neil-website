@@ -1,0 +1,145 @@
+---
+// The whole garden on one page, filterable by kind and stage.
+import Base from '../../layouts/Base.astro';
+import StageIcon from '../../components/StageIcon.astro';
+import { allEntries, mathNotes, topics, topicSlug, url, fmtDate, KIND_LABEL, STAGE_INFO } from '../../lib/garden';
+
+const all = await allEntries();
+const notes = mathNotes();
+const topicList = [...(await topics()).entries()];
+const counts = {
+  essays: all.filter((e) => e.collection === 'essays').length,
+  thoughts: all.filter((e) => e.collection === 'thoughts').length,
+  projects: all.filter((e) => e.collection === 'projects').length,
+  reviews: all.filter((e) => e.collection === 'reviews').length,
+};
+---
+<Base title="The garden" description="Everything in Neil’s digital garden: essays, thoughts, projects, reviews and math notes.">
+  <div class="wrap page">
+    <header class="page-head">
+      <p class="eyebrow">Everything, in one sky</p>
+      <h1>The garden</h1>
+      <p class="lede">
+        {all.length} pages and {notes.length} math notes, sorted by when they were last tended.
+        Filter by what they are, or by how far along they’ve formed.
+      </p>
+    </header>
+
+    <div class="filters" role="group" aria-label="Filter the garden">
+      <div class="filter-group" data-group="kind">
+        <button class="chip active" data-value="all">All</button>
+        {(['essays', 'thoughts', 'projects', 'reviews'] as const).map((k) => counts[k] > 0 && (
+          <button class="chip" data-value={k}>{KIND_LABEL[k].many} <span>{counts[k]}</span></button>
+        ))}
+        {notes.length > 0 && <button class="chip" data-value="notes">Math notes <span>{notes.length}</span></button>}
+      </div>
+      <div class="filter-group" data-group="stage">
+        <button class="chip active" data-value="all">Any stage</button>
+        {(['nebula', 'protostar', 'star'] as const).map((s) => (
+          <button class={`chip chip-${s}`} data-value={s}><StageIcon stage={s} size={14} /> {STAGE_INFO[s].label}</button>
+        ))}
+      </div>
+    </div>
+
+    <ul class="garden-list">
+      {all.map((e) => {
+        const d = e.data as any;
+        return (
+          <li data-kind={e.collection} data-stage={d.stage}>
+            <a href={url(e)} data-preview>
+              <StageIcon stage={d.stage} size={18} />
+              <span class="t">{e.collection === 'reviews' ? `${d.film} (${d.year})` : d.title}</span>
+              <span class="k eyebrow">{KIND_LABEL[e.collection].one}</span>
+              <time class="dt" datetime={(d.updated ?? d.date).toISOString()}>{fmtDate(d.updated ?? d.date)}</time>
+            </a>
+          </li>
+        );
+      })}
+      {notes.map((n) => (
+        <li data-kind="notes" data-stage="star">
+          <a href={n.url} data-preview>
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="5" fill="none" stroke="#7fd8ea" stroke-width="1.5"/><ellipse cx="12" cy="12" rx="10.5" ry="4" fill="none" stroke="#7fd8ea" stroke-width="1" opacity="0.6" transform="rotate(25 12 12)"/></svg>
+            <span class="t">{n.title}</span>
+            <span class="k eyebrow">Math note</span>
+            <time class="dt" datetime={n.date.toISOString()}>{fmtDate(n.date)}</time>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="none" hidden>Nothing matches. Try a different filter.</p>
+
+    {topicList.length > 0 && (
+      <section class="topics-section">
+        <h2>Constellations</h2>
+        <ul class="topics">
+          {topicList.map(([t, list]) => <li><a href={`/topics/${topicSlug(t)}/`}>{t}<span>{list.length}</span></a></li>)}
+        </ul>
+      </section>
+    )}
+  </div>
+</Base>
+
+<script>
+  const state: Record<string, string> = { kind: 'all', stage: 'all' };
+  const items = [...document.querySelectorAll<HTMLLIElement>('.garden-list li')];
+  const none = document.querySelector<HTMLElement>('.none')!;
+  // Notes are always "star"-stage, so sort them into the list by date.
+  const list = document.querySelector('.garden-list')!;
+  items.sort((a, b) => Date.parse(b.querySelector('time')!.dateTime) - Date.parse(a.querySelector('time')!.dateTime));
+  list.append(...items);
+  for (const group of document.querySelectorAll<HTMLElement>('.filter-group')) {
+    group.addEventListener('click', (ev) => {
+      const btn = (ev.target as Element).closest('button');
+      if (!btn) return;
+      group.querySelectorAll('button').forEach((b) => b.classList.toggle('active', b === btn));
+      state[group.dataset.group!] = btn.dataset.value!;
+      let shown = 0;
+      for (const li of items) {
+        const ok = (state.kind === 'all' || li.dataset.kind === state.kind) && (state.stage === 'all' || li.dataset.stage === state.stage);
+        li.hidden = !ok; if (ok) shown++;
+      }
+      none.hidden = shown > 0;
+    });
+  }
+</script>
+
+<style>
+  .page { padding-top: 4rem; }
+  .page-head { max-width: 62ch; margin-bottom: 2rem; }
+  h1 { font-size: var(--step-5); font-weight: 400; margin: 0.4rem 0 0.3rem; }
+  .lede { color: var(--muted); font-size: var(--step-1); margin: 0; }
+  .filters { display: grid; gap: 0.7rem; margin-bottom: 1.8rem; }
+  .filter-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    font: inherit; font-size: 0.9rem; cursor: pointer;
+    padding: 0.4rem 0.9rem; border-radius: 999px;
+    border: 1px solid var(--border); background: var(--surface); color: var(--muted);
+    transition: all 0.2s;
+  }
+  .chip span { font-family: var(--font-mono); font-size: 0.72rem; color: var(--faint); }
+  .chip:hover { color: var(--text); border-color: var(--border-strong); }
+  .chip.active { color: var(--text); border-color: var(--nebula); background: rgba(196,154,245,0.12); }
+  .garden-list { list-style: none; padding: 0; margin: 0 -0.9rem; display: grid; }
+  .garden-list a {
+    display: grid; grid-template-columns: 22px 1fr auto 110px; align-items: center; gap: 0.9rem;
+    padding: 0.8rem 0.9rem; border-radius: 10px;
+    text-decoration: none; color: var(--text);
+    transition: background 0.2s;
+  }
+  .garden-list a:hover { background: var(--surface-hover); }
+  .garden-list li + li a { border-top: 1px solid rgba(170,165,255,0.06); }
+  .t { font-family: var(--font-display); font-size: 1.1rem; line-height: 1.3; }
+  .dt { font-family: var(--font-mono); font-size: 0.75rem; color: var(--faint); text-align: right; }
+  .none { color: var(--muted); font-style: italic; }
+  @media (max-width: 640px) {
+    .garden-list a { grid-template-columns: 22px 1fr; }
+    .k, .dt { display: none; }
+  }
+  .topics-section { margin-top: 4rem; }
+  .topics-section h2 { font-size: var(--step-3); }
+  .topics { display: flex; flex-wrap: wrap; gap: 0.6rem; list-style: none; padding: 0; margin: 0; }
+  .topics a { display: inline-flex; gap: 0.55rem; align-items: center; padding: 0.45rem 0.95rem; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--text); text-decoration: none; font-size: 0.95rem; }
+  .topics a:hover { border-color: var(--ion); }
+  .topics span { font-family: var(--font-mono); font-size: 0.72rem; color: var(--faint); }
+</style>

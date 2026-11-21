@@ -1,7 +1,7 @@
 # Preface {.unnumbered}
 
 This is the slow, linear version of the material in my
-[notes](https://neilshahcosmos.com): an attempt to write down, in the order I
+[notes](https://neilshahcosmos.com/notes/): an attempt to write down, in the order I
 wish I had learned it, the group theory and representation theory that a
 physicist needs in order to read quantum field theory with understanding rather
 than faith.
@@ -38,5 +38,5 @@ metric is mostly-minus, $\eta = \diag(+,-,-,-)$.
 ## Status
 
 The book is being written in public. Chapters appear as they stabilise; the
-corresponding [notes](https://neilshahcosmos.com) usually come first and are
+corresponding [notes](https://neilshahcosmos.com/notes/) usually come first and are
 rougher. Corrections are welcome.

@@ -1,0 +1,23 @@
+---
+// Star rating out of 5, with half stars.
+interface Props { value: number; size?: number }
+const { value, size = 15 } = Astro.props;
+const stars = [0, 1, 2, 3, 4].map((i) => Math.max(0, Math.min(1, value - i)));
+const path = 'M12 2.2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17.1 5.9 20.6l1.5-6.8-5.2-4.6 6.9-.7z';
+---
+<span class="rating" role="img" aria-label={`${value} out of 5 stars`}>
+  {stars.map((fill, i) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
+      <defs>
+        <linearGradient id={`r${i}-${Math.round(value * 10)}`}>
+          <stop offset={fill} stop-color="#ffd57e" />
+          <stop offset={fill} stop-color="rgba(255,255,255,0.14)" />
+        </linearGradient>
+      </defs>
+      <path d={path} fill={`url(#r${i}-${Math.round(value * 10)})`} />
+    </svg>
+  ))}
+</span>
+<style>
+  .rating { display: inline-flex; gap: 2px; vertical-align: middle; filter: drop-shadow(0 0 6px rgba(255,213,126,0.25)); }
+</style>

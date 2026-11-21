@@ -1,0 +1,217 @@
+---
+import '@fontsource-variable/fraunces';
+import '@fontsource-variable/inter';
+import '@fontsource/jetbrains-mono/400.css';
+import 'katex/dist/katex.min.css';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  stage?: string;
+  kind?: string;
+}
+const {
+  title,
+  description = 'Neil Shah’s digital garden: notes on mathematics and physics, essays, projects, games and film reviews.',
+  image = '/images/og-default.jpg',
+  stage,
+  kind,
+} = Astro.props;
+const fullTitle = title ? `${title} · Neil Shah` : 'Neil Shah';
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const path = Astro.url.pathname;
+
+const nav = [
+  { href: '/garden/', label: 'Garden' },
+  { href: '/essays/', label: 'Essays' },
+  { href: '/thoughts/', label: 'Thoughts' },
+  { href: '/notes/', label: 'Math notes' },
+  { href: '/projects/', label: 'Projects' },
+  { href: '/reviews/', label: 'Reviews' },
+  { href: '/about/', label: 'About' },
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title="Neil Shah" href="/rss.xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#06060f" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:type" content={kind ? 'article' : 'website'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    {stage && <meta name="garden:stage" content={stage} />}
+    {kind && <meta name="garden:kind" content={kind} />}
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <a class="brand" href="/" aria-label="Neil Shah, home">
+          <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+            <defs><radialGradient id="brandglow"><stop offset="0" stop-color="#fff" /><stop offset="0.45" stop-color="#ffd57e" stop-opacity="0.55" /><stop offset="1" stop-color="#c49af5" stop-opacity="0" /></radialGradient></defs>
+            <circle cx="12" cy="12" r="11" fill="url(#brandglow)" />
+            <path d="M12 2 L13.3 10.7 L22 12 L13.3 13.3 L12 22 L10.7 13.3 L2 12 L10.7 10.7 Z" fill="#fff6dd" />
+          </svg>
+          <span>Neil Shah</span>
+        </a>
+        <nav aria-label="Main">
+          <ul>
+            {nav.map((n) => (
+              <li><a href={n.href} aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a></li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap footer-inner">
+        <div>
+          <p class="footer-title">Neil Shah</p>
+          <p class="muted">A digital garden: always growing, never finished.</p>
+        </div>
+        <ul class="footer-links">
+          <li><a href="/garden/">Garden</a></li>
+          <li><a href="/notes/">Math notes</a></li>
+          <li><a href="/notes/book/">Book</a></li>
+          <li><a href="/now/">Now</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+          <li><a href="https://github.com/neilshahcosmos">GitHub</a></li>
+        </ul>
+      </div>
+    </footer>
+
+    <script>
+      // Hover previews: hovering a link to another page on this site shows its
+      // title, description and image, fetched from that page's own <meta> tags.
+      // Works for garden pages and the Quarto math notes alike.
+      const canHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
+      if (canHover) {
+        const cache = new Map<string, Promise<HTMLElement | null>>();
+        const card = document.createElement('div');
+        card.className = 'preview-card';
+        card.setAttribute('role', 'tooltip');
+        document.body.appendChild(card);
+        let timer: number | undefined;
+        let active: HTMLAnchorElement | null = null;
+
+        const load = (href: string) => {
+          if (!cache.has(href)) {
+            cache.set(href, fetch(href).then((r) => (r.ok ? r.text() : null)).then((html) => {
+              if (!html) return null;
+              const doc = new DOMParser().parseFromString(html, 'text/html');
+              const meta = (sel: string) => doc.querySelector<HTMLMetaElement>(sel)?.content ?? '';
+              const title = meta('meta[property="og:title"]') || doc.title;
+              const desc = meta('meta[name="description"]') || meta('meta[property="og:description"]');
+              const img = meta('meta[property="og:image"]');
+              const kind = meta('meta[name="garden:kind"]') || (href.startsWith('/notes/') ? 'Math note' : '');
+              const stage = meta('meta[name="garden:stage"]');
+              const el = document.createElement('div');
+              if (img && !img.endsWith('og-default.jpg')) {
+                const i = document.createElement('img'); i.src = img; i.alt = ''; el.append(i);
+              }
+              if (kind || stage) {
+                const e = document.createElement('span'); e.className = 'eyebrow';
+                e.textContent = [kind, stage].filter(Boolean).join(' · '); el.append(e);
+              }
+              const s = document.createElement('strong'); s.textContent = title.replace(/ [·–|-] Neil Shah$/, ''); el.append(s);
+              if (desc) { const p = document.createElement('p'); p.textContent = desc; el.append(p); }
+              return el;
+            }).catch(() => null));
+          }
+          return cache.get(href)!;
+        };
+
+        const place = (a: HTMLElement) => {
+          const r = a.getBoundingClientRect();
+          const cw = card.offsetWidth, ch = card.offsetHeight;
+          let left = Math.min(Math.max(12, r.left + r.width / 2 - cw / 2), innerWidth - cw - 12);
+          let top = r.bottom + 10;
+          if (top + ch > innerHeight - 12) top = r.top - ch - 10;
+          card.style.left = `${left}px`; card.style.top = `${top}px`;
+        };
+
+        document.addEventListener('mouseover', (ev) => {
+          const a = (ev.target as Element).closest?.('.prose a, .backlinks a, a[data-preview]') as HTMLAnchorElement | null;
+          if (!a || a === active) return;
+          const url = new URL(a.href, location.href);
+          if (url.origin !== location.origin || url.pathname === location.pathname) return;
+          active = a;
+          clearTimeout(timer);
+          timer = window.setTimeout(async () => {
+            const el = await load(url.pathname);
+            if (!el || active !== a) return;
+            card.replaceChildren(el.cloneNode(true));
+            place(a);
+            card.classList.add('show');
+          }, 220);
+        });
+        document.addEventListener('mouseout', (ev) => {
+          if (!active) return;
+          const to = ev.relatedTarget as Node | null;
+          if (to && active.contains(to)) return;
+          clearTimeout(timer); active = null; card.classList.remove('show');
+        });
+      }
+    </script>
+
+    <style>
+      .skip { position: absolute; left: -999px; top: 0.5rem; z-index: 100; background: var(--star); color: #000; padding: 0.4rem 0.8rem; border-radius: 6px; }
+      .skip:focus { left: 0.5rem; }
+      .site-header {
+        position: sticky; top: 0; z-index: 40;
+        backdrop-filter: blur(14px) saturate(140%);
+        -webkit-backdrop-filter: blur(14px) saturate(140%);
+        background: rgba(6, 6, 15, 0.86);
+        border-bottom: 1px solid rgba(170, 165, 255, 0.08);
+      }
+      .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; min-height: 64px; }
+      .brand {
+        display: inline-flex; align-items: center; gap: 0.55rem;
+        color: var(--text); text-decoration: none;
+        font-family: var(--font-display); font-size: 1.2rem; font-weight: 500; white-space: nowrap;
+      }
+      .brand svg { transition: transform 0.6s cubic-bezier(.2,.8,.2,1); }
+      .brand:hover svg { transform: rotate(45deg) scale(1.15); }
+      nav ul { display: flex; gap: 0.2rem; list-style: none; margin: 0; padding: 0; }
+      nav a {
+        display: block; padding: 0.4rem 0.7rem; border-radius: 999px;
+        color: var(--muted); text-decoration: none; font-size: 0.92rem; white-space: nowrap;
+        transition: color 0.2s, background 0.2s;
+      }
+      nav a:hover { color: var(--text); background: var(--surface-hover); }
+      nav a[aria-current='page'] { color: var(--text); background: rgba(196, 154, 245, 0.12); }
+      @media (max-width: 860px) {
+        .header-inner { flex-direction: column; align-items: flex-start; gap: 0.2rem; padding-block: 0.7rem 0.4rem; }
+        nav { width: 100%; overflow-x: auto; scrollbar-width: none; mask-image: linear-gradient(90deg, #000 85%, transparent); }
+        nav ul { padding-right: 2rem; }
+        nav a { padding-inline: 0.55rem; }
+      }
+      main { min-height: 70vh; }
+      .site-footer { margin-top: 6rem; border-top: 1px solid var(--border); padding-block: 2.5rem 3rem; font-size: 0.92rem; }
+      .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1.5rem; }
+      .footer-title { font-family: var(--font-display); font-size: 1.15rem; margin: 0 0 0.2rem; }
+      .muted { color: var(--muted); margin: 0; }
+      .footer-links { display: flex; flex-wrap: wrap; gap: 0.4rem 1.3rem; list-style: none; padding: 0; margin: 0; align-items: center; }
+      .footer-links a { color: var(--muted); text-decoration: none; }
+      .footer-links a:hover { color: var(--text); }
+    </style>
+  </body>
+</html>

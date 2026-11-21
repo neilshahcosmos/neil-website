@@ -3,14 +3,14 @@
 ::: {.callout-tip}
 ## Chapter status
 Skeleton. The section headings are the plan; the content is being promoted
-from the [notes](https://neilshahcosmos.com/algebra/) as it stabilises.
+from the [notes](https://neilshahcosmos.com/notes/algebra/) as it stabilises.
 :::
 
 ## Groups {#sec-groups-def}
 
 The definition, the first examples ($\Z/n$, $S_n$, $D_n$, $\GL(n,\C)$ and its
 subgroups), homomorphisms and isomorphisms. See for now
-[What a group is, and what it is for](https://neilshahcosmos.com/algebra/what-is-a-group.html).
+[What a group is, and what it is for](https://neilshahcosmos.com/notes/algebra/what-is-a-group.html).
 
 ## Subgroups, cosets and quotients {#sec-quotients}
 
@@ -97,4 +97,4 @@ representations become differentiable, the Lie algebra enters, and the
 machinery above survives almost intact for compact groups. The payoff is
 Wigner's theorem that particles are irreducible unitary representations of the
 Poincaré group, previewed in
-[the notes](https://neilshahcosmos.com/qft/wigner-classification.html).
+[the notes](https://neilshahcosmos.com/notes/qft/wigner-classification.html).

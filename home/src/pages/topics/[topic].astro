@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+import EntryCard from '../../components/EntryCard.astro';
+import { topics, topicSlug, type Entry } from '../../lib/garden';
+
+export async function getStaticPaths() {
+  return [...(await topics()).entries()].map(([name, list]) => ({
+    params: { topic: topicSlug(name) },
+    props: { name, list },
+  }));
+}
+const { name, list } = Astro.props as { name: string; list: Entry[] };
+---
+<Base title={`Topic: ${name}`} description={`Everything in the garden about ${name}.`}>
+  <div class="wrap page">
+    <header class="page-head">
+      <a class="eyebrow back" href="/garden/">← Constellation</a>
+      <h1>{name}</h1>
+      <p class="lede">{list.length} {list.length === 1 ? 'page' : 'pages'} in this constellation.</p>
+    </header>
+    <div class="rows">{list.map((e) => <EntryCard entry={e} variant="row" showKind />)}</div>
+  </div>
+</Base>
+<style>
+  .page { padding-top: 4rem; max-width: 820px; }
+  .back { text-decoration: none; }
+  h1 { font-size: var(--step-5); font-weight: 400; margin: 0.4rem 0 0.2rem; text-transform: capitalize; }
+  .lede { color: var(--muted); margin: 0 0 2rem; }
+  .rows { margin-inline: -0.9rem; }
+</style>

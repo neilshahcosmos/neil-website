@@ -1,0 +1,31 @@
+---
+import StageIcon from './StageIcon.astro';
+import { STAGE_INFO } from '../lib/garden';
+interface Props { stage: 'nebula' | 'protostar' | 'star'; compact?: boolean }
+const { stage, compact = false } = Astro.props;
+const info = STAGE_INFO[stage];
+---
+<span class:list={['stage-badge', `stage-${stage}`, { compact }]} title={`${info.label}: ${info.blurb}`}>
+  <StageIcon stage={stage} size={compact ? 14 : 16} />
+  {!compact && <span>{info.label}</span>}
+</span>
+<style>
+  .stage-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.28em 0.7em 0.28em 0.55em;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    white-space: nowrap;
+  }
+  .stage-nebula { color: var(--nebula); }
+  .stage-protostar { color: var(--protostar); }
+  .stage-star { color: var(--star); }
+  .compact { padding: 0; border: 0; background: none; }
+</style>

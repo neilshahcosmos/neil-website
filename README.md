@@ -9,7 +9,7 @@ Two sites deployed together by Netlify on every push:
 
 ```
 .
-├── home/                    main site (plain static files for now)
+├── home/                    main site: an Astro digital garden (see "The main site" below)
 ├── notes/                   the Quarto project for the notes
 │   ├── _quarto.yml          site config: nav, theme, math, bibliography
 │   ├── index.qmd            notes homepage (lists recent notes)
@@ -30,7 +30,7 @@ Two sites deployed together by Netlify on every push:
 │   ├── styles.css           quick CSS tweaks (notes site only)
 │   └── references.bib       shared bibliography
 ├── netlify.toml             Netlify build settings + redirects from old URLs
-├── netlify-build.sh         builds home/ into dist/, notes into dist/notes/
+├── netlify-build.sh         builds home/ (Astro) into dist/, then notes into dist/notes/
 ├── publish.sh               render check → commit → push (= deploy)
 ├── preview.sh               live preview of the notes or the book
 └── new-note.sh              create a note from the template
@@ -43,6 +43,46 @@ macro file have that prefix.
 
 The notes used to live at the root of the domain; `netlify.toml` redirects
 the old addresses (`/algebra/...`, `/book/...`, etc.) to `/notes/...`.
+
+## The main site (`home/`)
+
+A digital garden built with [Astro](https://astro.build), inspired by Maggie
+Appleton's site and themed around star formation. Pages are Markdown files:
+
+```
+home/src/content/
+├── essays/      longer pieces          -> /essays/<file-name>/
+├── thoughts/    short, loose notes     -> /thoughts/<file-name>/
+├── projects/    code, games, tools     -> /projects/<file-name>/
+└── reviews/     film reviews           -> /reviews/<file-name>/
+```
+
+To add a page, copy the `_template.md` in that folder, rename it, and fill in
+the front matter. The template explains every field. About and Now are
+`home/src/pages/about.md` and `now.md`.
+
+- **Growth stages**: `stage: nebula | protostar | star` (rough → taking shape → mature).
+- **Wiki-links**: `[[file-name]]` links to another garden page using its title;
+  `[[file-name|other text]]` sets the text; `[[notes:algebra/what-is-a-group]]`
+  links into the math notes. Links to pages that don't exist yet show as a
+  dimmed "not written yet" marker.
+- **Backlinks**: every page lists the pages that link to it, automatically.
+- **Hover previews**: hovering an internal link shows that page's title and description.
+- **Math**: `$...$` and `$$...$$`, rendered with KaTeX.
+- **Math notes on the homepage**: read automatically from the front matter of
+  `notes/<section>/*.qmd`. Nothing to do.
+- **Covers**: put images in `home/public/images/covers/` and set
+  `cover: /images/covers/<name>.jpg`. The space-art tool makes them, for example
+  `python notes/_tools/space-art.py banner my-essay` (then move the file there).
+- **Example content**: the two film reviews are examples (`example: true`);
+  replace or delete them. The rest of the starter content describes real things.
+- **Look and feel**: colours, fonts and spacing are at the top of
+  `home/src/styles/global.css`; the homepage is `home/src/pages/index.astro`.
+
+Local preview needs [Node.js](https://nodejs.org) (LTS): `./preview.sh home`
+runs a live-reloading dev server at <http://localhost:4321>. Links into
+`/notes/` don't resolve in that mode; `./preview.sh all` builds everything and
+serves it exactly as Netlify will.
 
 ## One-time setup
 

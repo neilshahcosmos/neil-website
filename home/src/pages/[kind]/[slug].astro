@@ -1,0 +1,123 @@
+---
+// A single garden page: essay, thought, project or review.
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import StageBadge from '../../components/StageBadge.astro';
+import Rating from '../../components/Rating.astro';
+import { allEntries, backlinks, url, fmtDate, topicSlug, KIND_LABEL, STAGE_INFO, type Entry } from '../../lib/garden';
+
+export async function getStaticPaths() {
+  const all = await allEntries();
+  return all.map((entry) => ({ params: { kind: entry.collection, slug: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props as { entry: Entry };
+const d = entry.data as any;
+const { Content } = await render(entry);
+const links = await backlinks(entry);
+const kind = KIND_LABEL[entry.collection];
+---
+<Base title={d.title} description={d.description} image={d.cover} stage={STAGE_INFO[d.stage as 'star'].label} kind={kind.one}>
+  <article class="entry">
+    {d.cover && entry.collection !== 'reviews' && (
+      <div class="cover"><img src={d.cover} alt="" /><div class="cover-fade"></div></div>
+    )}
+    <div class:list={['wrap', 'entry-inner', { 'has-cover': d.cover }]}>
+      <header class="entry-head">
+        <a class="eyebrow kind" href={`/${entry.collection}/`}>{kind.one}</a>
+        <h1>{entry.collection === 'reviews' ? d.film : d.title}</h1>
+        {d.subtitle && <p class="subtitle">{d.subtitle}</p>}
+        {entry.collection === 'reviews' && (
+          <p class="film-meta">
+            <Rating value={d.rating} size={20} />
+            <span>{d.year}{d.director && ` · dir. ${d.director}`}</span>
+          </p>
+        )}
+        <p class="description">{d.description}</p>
+        <div class="meta">
+          {entry.collection !== 'reviews' && <StageBadge stage={d.stage} />}
+          <span class="dates">
+            {entry.collection === 'reviews' ? 'Reviewed' : 'Planted'} {fmtDate(d.date)}{d.updated && <> · Last tended {fmtDate(d.updated)}</>}
+          </span>
+        </div>
+        {entry.collection === 'projects' && (d.live || d.repo || d.tech.length > 0) && (
+          <div class="project-links">
+            {d.live && <a class="btn btn-primary" href={d.live}>{d.kind === 'game' ? 'Play it' : 'Open it'} →</a>}
+            {d.repo && <a class="btn" href={d.repo}>Source code</a>}
+            {d.tech.length > 0 && <span class="tech">{d.tech.join(' · ')}</span>}
+          </div>
+        )}
+        {d.example && (
+          <p class="example-note">
+            This is example content, here to show how this kind of page looks. Edit or delete{' '}
+            <code>home/src/content/{entry.collection}/{entry.id}.md</code>.
+          </p>
+        )}
+      </header>
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      <footer class="entry-foot">
+        {d.topics.length > 0 && (
+          <div class="topics">
+            <span class="eyebrow">Topics</span>
+            <ul>{d.topics.map((t: string) => <li><a href={`/topics/${topicSlug(t)}/`}>{t}</a></li>)}</ul>
+          </div>
+        )}
+        {links.length > 0 && (
+          <div class="backlinks">
+            <span class="eyebrow">Linked from</span>
+            <ul>
+              {links.map((b) => (
+                <li>
+                  <a href={url(b)}>
+                    <strong>{b.data.title}</strong>
+                    <span>{b.data.description}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </footer>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .cover { position: relative; height: clamp(220px, 42vh, 440px); overflow: hidden; }
+  .cover img { width: 100%; height: 100%; object-fit: cover; }
+  .cover-fade { position: absolute; inset: 0; background: linear-gradient(rgba(6,6,15,0.1), rgba(6,6,15,0.35) 55%, var(--bg)); }
+  .entry-inner { padding-top: 4rem; }
+  .entry-inner.has-cover { margin-top: -9rem; position: relative; }
+  .entry-head { max-width: var(--prose); margin-bottom: 2.8rem; }
+  .kind { text-decoration: none; color: var(--nebula); }
+  .kind:hover { color: var(--text); }
+  h1 { font-size: var(--step-5); font-weight: 400; line-height: 1.05; margin: 0.5rem 0 0.4rem; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 100, 'opsz' 144; }
+  .subtitle { font-family: var(--font-display); font-style: italic; font-size: var(--step-2); color: var(--muted); margin: 0 0 0.6rem; line-height: 1.25; }
+  .film-meta { display: flex; align-items: center; gap: 0.9rem; margin: 0.4rem 0 0.8rem; color: var(--muted); font-family: var(--font-mono); font-size: 0.85rem; }
+  .description { font-size: var(--step-1); color: var(--muted); line-height: 1.5; margin: 0.6rem 0 1.4rem; }
+  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem; padding-block: 1rem; border-block: 1px solid var(--border); }
+  .dates { font-family: var(--font-mono); font-size: 0.78rem; color: var(--faint); }
+  .project-links { display: flex; flex-wrap: wrap; align-items: center; gap: 0.7rem 1rem; margin-top: 1.4rem; }
+  .btn { display: inline-flex; padding: 0.6rem 1.15rem; border-radius: 999px; border: 1px solid var(--border-strong); color: var(--text); text-decoration: none; font-weight: 500; font-size: 0.95rem; }
+  .btn:hover { background: var(--surface-hover); }
+  .btn-primary { background: linear-gradient(135deg, #c49af5, #7f8cf0); border-color: transparent; color: #0b0718; }
+  .btn-primary:hover { color: #0b0718; box-shadow: 0 0 24px rgba(196,154,245,0.45); }
+  .tech { font-family: var(--font-mono); font-size: 0.78rem; color: var(--faint); }
+  .example-note { margin-top: 1.4rem; padding: 0.8rem 1rem; border: 1px dashed var(--faint); border-radius: 10px; color: var(--muted); font-size: 0.9rem; }
+  .example-note code { font-family: var(--font-mono); font-size: 0.85em; }
+
+  .entry-foot { max-width: var(--prose); margin-top: 4rem; display: grid; gap: 2.2rem; }
+  .topics ul, .backlinks ul { list-style: none; margin: 0.7rem 0 0; padding: 0; }
+  .topics ul { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .topics a { display: inline-block; padding: 0.3rem 0.85rem; border-radius: 999px; border: 1px solid var(--border); color: var(--text); text-decoration: none; font-size: 0.9rem; }
+  .topics a:hover { border-color: var(--ion); }
+  .backlinks { padding: 1.3rem 1.4rem; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); }
+  .backlinks li + li { margin-top: 0.4rem; }
+  .backlinks a { display: block; padding: 0.6rem 0.7rem; margin-inline: -0.7rem; border-radius: 9px; text-decoration: none; color: var(--text); }
+  .backlinks a:hover { background: var(--surface-hover); }
+  .backlinks strong { display: block; font-family: var(--font-display); font-weight: 500; font-size: 1.08rem; }
+  .backlinks span { color: var(--muted); font-size: 0.9rem; }
+</style>

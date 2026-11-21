@@ -1,0 +1,209 @@
+---
+import Base from '../layouts/Base.astro';
+import Starfield from '../components/Starfield.astro';
+import EntryCard from '../components/EntryCard.astro';
+import MathNoteCard from '../components/MathNoteCard.astro';
+import StageIcon from '../components/StageIcon.astro';
+import { entries, mathNotes, topics, topicSlug, STAGE_INFO, KIND_LABEL } from '../lib/garden';
+
+const essays = (await entries('essays')).slice(0, 3);
+const thoughts = (await entries('thoughts')).slice(0, 12);
+const projects = (await entries('projects')).slice(0, 3);
+const reviews = (await entries('reviews')).slice(0, 4);
+const notes = mathNotes().slice(0, 4);
+const topicList = [...(await topics()).entries()].slice(0, 14);
+---
+<Base>
+  <section class="hero">
+    <Starfield />
+    <div class="glow glow-a"></div>
+    <div class="glow glow-b"></div>
+    <div class="wrap hero-inner">
+      <p class="eyebrow hero-eyebrow">neilshahcosmos · a digital garden</p>
+      <h1>
+        Neil is learning the mathematics <em>the universe is written in</em>, and writing it all down.
+      </h1>
+      <p class="lede">
+        Notes on algebra, Lie theory and quantum field theory, alongside essays, half-formed thoughts,
+        code, games and films. Everything here grows slowly, like stars condensing out of gas.
+      </p>
+      <div class="hero-links">
+        <a class="btn btn-primary" href="/garden/">Explore the garden</a>
+        <a class="btn" href="/notes/">Math &amp; physics notes →</a>
+      </div>
+    </div>
+    <div class="hero-fade"></div>
+  </section>
+
+  <section class="wrap stages-intro">
+    <div class="stages-text">
+      <h2>How this garden grows</h2>
+      <p>
+        This isn’t a blog of finished posts. It’s a collection of ideas at different stages of formation:
+        some are still loose clouds, some are collapsing into shape, and a few have settled into something
+        I’d stand behind. Each page is labelled with where it is in that life cycle.
+      </p>
+    </div>
+    <ol class="stages">
+      {(['nebula', 'protostar', 'star'] as const).map((s) => (
+        <li class={`stage stage-${s}`}>
+          <StageIcon stage={s} size={34} />
+          <div>
+            <strong>{STAGE_INFO[s].label}</strong>
+            <span>{STAGE_INFO[s].blurb}</span>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  {essays.length > 0 && (
+    <section class="wrap section">
+      <header class="section-head">
+        <div><h2>Essays</h2><p>{KIND_LABEL.essays.blurb}</p></div>
+        <a class="more" href="/essays/">All essays →</a>
+      </header>
+      <div class="grid grid-3">{essays.map((e) => <EntryCard entry={e} />)}</div>
+    </section>
+  )}
+
+  <section class="wrap section split">
+    {thoughts.length > 0 && (
+      <div>
+        <header class="section-head">
+          <div><h2>Thoughts</h2><p>{KIND_LABEL.thoughts.blurb}</p></div>
+          <a class="more" href="/thoughts/">All →</a>
+        </header>
+        <div class="rows">{thoughts.map((e) => <EntryCard entry={e} variant="row" />)}</div>
+      </div>
+    )}
+    {notes.length > 0 && (
+      <div>
+        <header class="section-head">
+          <div><h2>Math notes</h2><p>Careful, worked notes from the road to quantum field theory.</p></div>
+          <a class="more" href="/notes/">All →</a>
+        </header>
+        <div class="stack">{notes.map((n) => <MathNoteCard note={n} />)}</div>
+      </div>
+    )}
+  </section>
+
+  {projects.length > 0 && (
+    <section class="wrap section">
+      <header class="section-head">
+        <div><h2>Projects &amp; games</h2><p>{KIND_LABEL.projects.blurb}</p></div>
+        <a class="more" href="/projects/">All projects →</a>
+      </header>
+      <div class="grid grid-3">{projects.map((e) => <EntryCard entry={e} />)}</div>
+    </section>
+  )}
+
+  {reviews.length > 0 && (
+    <section class="wrap section">
+      <header class="section-head">
+        <div><h2>Film reviews</h2><p>{KIND_LABEL.reviews.blurb}</p></div>
+        <a class="more" href="/reviews/">All reviews →</a>
+      </header>
+      <div class="grid grid-4">{reviews.map((e) => <EntryCard entry={e} variant="review" />)}</div>
+    </section>
+  )}
+
+  {topicList.length > 0 && (
+    <section class="wrap section">
+      <header class="section-head"><div><h2>Constellations</h2><p>Topics that tie the garden together.</p></div></header>
+      <ul class="topics">
+        {topicList.map(([t, list]) => (
+          <li><a href={`/topics/${topicSlug(t)}/`}>{t}<span>{list.length}</span></a></li>
+        ))}
+      </ul>
+    </section>
+  )}
+</Base>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: min(88vh, 820px);
+    display: flex; align-items: center;
+    overflow: hidden;
+    margin-top: -1px;
+  }
+  .glow { position: absolute; border-radius: 50%; filter: blur(60px); pointer-events: none; }
+  .glow-a { width: 55vw; height: 55vw; right: -14vw; top: -18vw; background: radial-gradient(circle, rgba(160, 90, 230, 0.32), transparent 65%); animation: drift 26s ease-in-out infinite alternate; }
+  .glow-b { width: 40vw; height: 40vw; left: -12vw; bottom: -16vw; background: radial-gradient(circle, rgba(60, 160, 200, 0.22), transparent 65%); animation: drift 32s ease-in-out infinite alternate-reverse; }
+  @keyframes drift { to { transform: translate(-4vw, 3vw) scale(1.08); } }
+  .hero-inner { position: relative; z-index: 1; padding-block: 6rem 7rem; }
+  .hero-eyebrow { color: var(--nebula); margin-bottom: 1.4rem; }
+  .hero h1 {
+    font-size: var(--step-5);
+    font-weight: 400;
+    max-width: 17ch;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.6rem;
+    font-variation-settings: 'SOFT' 100, 'WONK' 1, 'opsz' 144;
+  }
+  .hero h1 em {
+    font-style: italic;
+    background: linear-gradient(100deg, #e5cfff 10%, #c49af5 40%, #7fd8ea 75%, #ffd57e 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .lede { max-width: 56ch; font-size: var(--step-1); color: var(--muted); line-height: 1.55; margin: 0 0 2.2rem; }
+  .hero-links { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+  .btn {
+    display: inline-flex; align-items: center;
+    padding: 0.75rem 1.35rem; border-radius: 999px;
+    border: 1px solid var(--border-strong);
+    color: var(--text); text-decoration: none; font-weight: 500; font-size: 0.98rem;
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(6px);
+    transition: background 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+  .btn:hover { background: rgba(255,255,255,0.08); color: #fff; transform: translateY(-1px); }
+  .btn-primary { background: linear-gradient(135deg, rgba(196,154,245,0.9), rgba(127,140,240,0.9)); border-color: transparent; color: #0b0718; }
+  .btn-primary:hover { color: #0b0718; background: linear-gradient(135deg, #d7b6ff, #9aa6ff); box-shadow: 0 0 30px rgba(196,154,245,0.45); }
+  .hero-fade { position: absolute; inset: auto 0 0 0; height: 160px; background: linear-gradient(transparent, var(--bg)); pointer-events: none; }
+
+  .stages-intro { display: grid; grid-template-columns: 1fr 1.25fr; gap: 3rem; align-items: center; padding-block: 2rem 1rem; }
+  .stages-text h2 { font-size: var(--step-3); }
+  .stages-text p { color: var(--muted); margin: 0; max-width: 52ch; }
+  .stages { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
+  .stage {
+    display: flex; gap: 1rem; align-items: center;
+    padding: 0.95rem 1.15rem; border-radius: var(--radius);
+    border: 1px solid var(--border); background: var(--surface);
+  }
+  .stage strong { display: block; font-family: var(--font-display); font-weight: 500; font-size: 1.15rem; }
+  .stage span { color: var(--muted); font-size: 0.93rem; }
+  .stage-nebula strong { color: var(--nebula); }
+  .stage-protostar strong { color: var(--protostar); }
+  .stage-star strong { color: var(--star); }
+
+  .section { padding-top: 5rem; }
+  .section-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; margin-bottom: 1.6rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+  .section-head h2 { font-size: var(--step-3); margin-bottom: 0.2rem; }
+  .section-head p { margin: 0; color: var(--muted); }
+  .more { color: var(--muted); text-decoration: none; white-space: nowrap; font-size: 0.95rem; }
+  .more:hover { color: var(--text); }
+  .grid { display: grid; gap: 1.3rem; }
+  .grid-3 { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+  .grid-4 { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+  .split { display: grid; grid-template-columns: 1fr 1.1fr; gap: 3.5rem; }
+  .rows { display: grid; grid-template-columns: 1fr; gap: 0.1rem; margin-inline: -0.9rem; }
+  .stack { display: grid; gap: 0.8rem; }
+  .topics { display: flex; flex-wrap: wrap; gap: 0.6rem; list-style: none; padding: 0; margin: 0; }
+  .topics a {
+    display: inline-flex; align-items: center; gap: 0.55rem;
+    padding: 0.45rem 0.95rem; border-radius: 999px;
+    border: 1px solid var(--border); background: var(--surface);
+    color: var(--text); text-decoration: none; font-size: 0.95rem;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  }
+  .topics a:hover { border-color: var(--ion); box-shadow: 0 0 18px rgba(127,216,234,0.2); }
+  .topics span { font-family: var(--font-mono); font-size: 0.72rem; color: var(--faint); }
+
+  @media (max-width: 900px) {
+    .stages-intro, .split { grid-template-columns: 1fr; gap: 2rem; }
+    .hero-inner { padding-block: 4rem 5rem; }
+  }
+</style>

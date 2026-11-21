@@ -1,0 +1,21 @@
+---
+// Layout for simple Markdown pages like About and Now (src/pages/*.md).
+import Base from './Base.astro';
+const { frontmatter } = Astro.props;
+---
+<Base title={frontmatter.title} description={frontmatter.description}>
+  <article class="wrap page">
+    <header>
+      {frontmatter.eyebrow && <p class="eyebrow">{frontmatter.eyebrow}</p>}
+      <h1>{frontmatter.title}</h1>
+      {frontmatter.description && <p class="lede">{frontmatter.description}</p>}
+    </header>
+    <div class="prose"><slot /></div>
+  </article>
+</Base>
+<style>
+  .page { padding-top: 4rem; }
+  header { max-width: var(--prose); margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+  h1 { font-size: var(--step-5); font-weight: 400; margin: 0.4rem 0 0.3rem; }
+  .lede { color: var(--muted); font-size: var(--step-1); margin: 0; }
+</style>

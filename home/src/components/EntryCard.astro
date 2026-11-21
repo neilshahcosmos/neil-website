@@ -1,0 +1,110 @@
+---
+// Card for any garden entry. `variant="feature"` shows the cover image
+// (essays, projects); `variant="row"` is a compact title line (thoughts).
+import StageBadge from './StageBadge.astro';
+import Rating from './Rating.astro';
+import { url, fmtDate, KIND_LABEL, type Entry } from '../lib/garden';
+interface Props { entry: Entry; variant?: 'feature' | 'row' | 'review'; showKind?: boolean }
+const { entry, variant = 'feature', showKind = false } = Astro.props;
+const d = entry.data as any;
+const href = url(entry);
+const kindLabel = KIND_LABEL[entry.collection].one;
+---
+{variant === 'row' && (
+  <a class="row" href={href} data-preview>
+    <StageBadge stage={d.stage} compact />
+    <span class="row-title">{d.title}</span>
+    {showKind && <span class="eyebrow">{kindLabel}</span>}
+  </a>
+)}
+
+{variant === 'review' && (
+  <a class="review" href={href} data-preview>
+    <div class="review-head">
+      <span class="review-film">{d.film}</span>
+      <span class="review-year">{d.year}</span>
+    </div>
+    <Rating value={d.rating} />
+    <p class="desc">{d.description}</p>
+    {d.example && <span class="example-tag">Example</span>}
+  </a>
+)}
+
+{variant === 'feature' && (
+  <a class="card" href={href} data-preview>
+    <div class="cover">
+      {d.cover ? <img src={d.cover} alt="" loading="lazy" /> : <div class="cover-fallback" />}
+      {d.example && <span class="example-tag">Example</span>}
+    </div>
+    <div class="body">
+      <div class="meta">
+        <span class="eyebrow">{showKind ? kindLabel : (entry.collection === 'projects' ? d.kind : fmtDate(d.updated ?? d.date))}</span>
+        <StageBadge stage={d.stage} />
+      </div>
+      <h3>{d.title}</h3>
+      {d.subtitle && <p class="subtitle">{d.subtitle}</p>}
+      <p class="desc">{d.description}</p>
+    </div>
+  </a>
+)}
+
+<style>
+  .card {
+    position: relative;
+    display: flex; flex-direction: column;
+    height: 100%;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015));
+    color: var(--text); text-decoration: none;
+    overflow: hidden;
+    transition: transform 0.25s cubic-bezier(.2,.8,.2,1), border-color 0.25s, box-shadow 0.25s;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-strong);
+    box-shadow: 0 20px 45px rgba(0,0,0,0.45), 0 0 40px rgba(150, 110, 230, 0.12);
+  }
+  .cover { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #05050d; }
+  .cover img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(.2,.8,.2,1); }
+  .card:hover .cover img { transform: scale(1.06); }
+  .cover-fallback { width: 100%; height: 100%; background: radial-gradient(ellipse at 70% 30%, rgba(196,154,245,0.35), transparent 60%), radial-gradient(ellipse at 20% 80%, rgba(127,216,234,0.25), transparent 60%), #08081a; }
+  .body { padding: 1.1rem 1.2rem 1.3rem; display: flex; flex-direction: column; gap: 0.35rem; }
+  .meta { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem; }
+  h3 { font-size: var(--step-1); margin: 0; }
+  .subtitle { margin: 0; color: var(--muted); font-family: var(--font-display); font-style: italic; }
+  .desc { margin: 0; color: var(--muted); font-size: 0.94rem; line-height: 1.55; }
+
+  .row {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.75rem 0.9rem;
+    border-radius: 10px;
+    color: var(--text); text-decoration: none;
+    font-family: var(--font-display); font-size: 1.08rem; line-height: 1.3;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .row:hover { background: var(--surface-hover); transform: translateX(3px); }
+  .row-title { flex: 1; }
+
+  .review {
+    position: relative; display: block; height: 100%;
+    padding: 1.1rem 1.2rem 1.2rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: linear-gradient(160deg, rgba(255,213,126,0.06), rgba(255,255,255,0.015) 50%);
+    color: var(--text); text-decoration: none;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .review:hover { border-color: var(--border-strong); transform: translateY(-3px); }
+  .review-head { display: flex; align-items: baseline; gap: 0.6rem; margin-bottom: 0.35rem; }
+  .review-film { font-family: var(--font-display); font-size: var(--step-1); line-height: 1.2; }
+  .review-year { font-family: var(--font-mono); font-size: 0.78rem; color: var(--faint); }
+  .review .desc { margin-top: 0.55rem; }
+
+  .example-tag {
+    position: absolute; top: 0.7rem; right: 0.7rem;
+    font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.2em 0.6em; border-radius: 999px;
+    background: rgba(6,6,15,0.75); border: 1px dashed var(--faint); color: var(--muted);
+  }
+</style>

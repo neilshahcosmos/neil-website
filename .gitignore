@@ -7,6 +7,8 @@
 /notes/_book/_book/
 /notes/_freeze/
 /_to_delete/
+/home/node_modules/
+/home/.astro/
 *_files/
 *_cache/
 

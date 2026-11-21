@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import Starfield from '../components/Starfield.astro';
+---
+<Base title="Lost in space">
+  <section class="lost">
+    <Starfield />
+    <div class="wrap inner">
+      <p class="eyebrow">404 · nothing at these coordinates</p>
+      <h1>This page drifted off into the void.</h1>
+      <p>It may have moved, or it may still be a cloud of gas that never formed.</p>
+      <p><a href="/">Return home</a> · <a href="/garden/">Browse the garden</a> · <a href="/notes/">Math notes</a></p>
+    </div>
+  </section>
+</Base>
+<style>
+  .lost { position: relative; min-height: 70vh; display: flex; align-items: center; overflow: hidden; }
+  .inner { position: relative; }
+  h1 { font-size: var(--step-4); font-weight: 400; max-width: 18ch; }
+  p { color: var(--muted); }
+</style>
