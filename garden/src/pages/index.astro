@@ -10,25 +10,25 @@
 		<title>Astro</title>
 	</head>
 
-	<section class="hero">
-		<div class="wrap hero-inner">
-			<p>neilshahcosmos - a digital garden</p>
-			<h1>
-				Neil is learning the mathematics <em>the universe is written in</em>,
-				and writing it all down
-			</h1>
-			<p>
-				Notes on Abstract Algebra, Lie theory, and Quantum Field Theory, alongside essays and thoughts,
-				code, games, and films. Everything grows slowly, like stars condensing!
-			</p>
-			<div class="hero-links">
-				<a class="btn btn-primary" href="/garden/">Explore the garden</a>
-				<a class="btn" href="/notes/">Math &amp; physics notes</a>
-			</div>
-		</div>
-	</section>
-
 	<body>
+		<section class="hero">
+			<div class="wrap hero-inner">
+				<p>neilshahcosmos - a digital garden</p>
+				<h1>
+					Neil is learning the mathematics <em>the universe is written in</em>,
+					and writing it all down
+				</h1>
+				<p>
+					Notes on Abstract Algebra, Lie theory, and Quantum Field Theory, alongside essays and thoughts,
+					code, games, and films. Everything grows slowly, like stars condensing!
+				</p>
+				<div class="hero-links">
+					<a class="btn btn-primary" href="/garden/">Explore the garden</a>
+					<a class="btn" href="/notes/">Math &amp; physics notes</a>
+				</div>
+			</div>
+		</section>
+
 		<header class="site-header">
 			<div class="wrap header-inner">
 				<a href="/" aria-label="Neil Shah / home">
@@ -54,7 +54,7 @@
 				<p>Neil Shah</p>
 				<p>A digital garden: always growing, never finished</p>
 				<ul>
-					<li><a href="/garden/"></a></li>
+					<li><a href="/garden/">Garden</a></li>
 				</ul>
 			</div>
 		</footer>
@@ -64,8 +64,13 @@
 		</script>
 
 		<style>
-			* {
+			/* * {
 				border: 1px solid red;
+			} */
+			body {
+				background: #06060f;
+				color: #ecebf7;
+				font-family: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
 			}
 			.header-inner {
 				display: flex;

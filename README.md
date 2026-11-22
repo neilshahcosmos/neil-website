@@ -2,14 +2,15 @@
 
 Two sites deployed together by Netlify on every push:
 
-- **neilshahcosmos.com**: the main site, from `home/`
+- **neilshahcosmos.com**: the main site, from `garden/` (Neil's own Astro rebuild, a work in progress)
 - **neilshahcosmos.com/notes/**: math and physics notes, written in Markdown
   with LaTeX and rendered by [Quarto](https://quarto.org), from `notes/`
   (the book is at `/notes/book/`)
 
 ```
 .
-├── home/                    main site: an Astro digital garden (see "The main site" below)
+├── garden/                  the live main site: Neil's Astro rebuild, in progress
+├── home/                    reference only, not deployed: Claude's version of the garden
 ├── notes/                   the Quarto project for the notes
 │   ├── _quarto.yml          site config: nav, theme, math, bibliography
 │   ├── index.qmd            notes homepage (lists recent notes)
@@ -30,7 +31,7 @@ Two sites deployed together by Netlify on every push:
 │   ├── styles.css           quick CSS tweaks (notes site only)
 │   └── references.bib       shared bibliography
 ├── netlify.toml             Netlify build settings + redirects from old URLs
-├── netlify-build.sh         builds home/ (Astro) into dist/, then notes into dist/notes/
+├── netlify-build.sh         builds garden/ (Astro) into dist/, then notes into dist/notes/
 ├── publish.sh               render check → commit → push (= deploy)
 ├── preview.sh               live preview of the notes or the book
 └── new-note.sh              create a note from the template
@@ -44,7 +45,15 @@ macro file have that prefix.
 The notes used to live at the root of the domain; `netlify.toml` redirects
 the old addresses (`/algebra/...`, `/book/...`, etc.) to `/notes/...`.
 
-## The main site (`home/`)
+## The main site (`garden/`) and the reference (`home/`)
+
+`garden/` is the live site: Neil's own rebuild, deployed on every push, so the
+site shows progress as it happens. `home/` is Claude's finished version, kept
+only as a reference to compare against. It isn't deployed, and it builds into
+`home/dist/` so it can never overwrite the live site. `./preview.sh garden`
+runs the live site locally; `./preview.sh home` runs the reference.
+
+The rest of this section describes how the reference version (`home/`) works.
 
 A digital garden built with [Astro](https://astro.build), inspired by Maggie
 Appleton's site and themed around star formation. Pages are Markdown files:
@@ -79,8 +88,8 @@ the front matter. The template explains every field. About and Now are
 - **Look and feel**: colours, fonts and spacing are at the top of
   `home/src/styles/global.css`; the homepage is `home/src/pages/index.astro`.
 
-Local preview needs [Node.js](https://nodejs.org) (LTS): `./preview.sh home`
-runs a live-reloading dev server at <http://localhost:4321>. Links into
+Local preview needs [Node.js](https://nodejs.org) (LTS): `./preview.sh garden`
+(or `home` for the reference) runs a live-reloading dev server at <http://localhost:4321>. Links into
 `/notes/` don't resolve in that mode; `./preview.sh all` builds everything and
 serves it exactly as Netlify will.
 

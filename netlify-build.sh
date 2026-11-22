@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Netlify build script: assemble dist/ from the main site (home/) and the
+# Netlify build script: assemble dist/ from the main site (garden/) and the
 # Quarto notes (notes/ -> dist/notes/, book -> dist/notes/book/).
 # The main site is an Astro project; Netlify's build image already has Node.
 # Runs on Netlify's Ubuntu build image; invoked from netlify.toml.
@@ -34,7 +34,7 @@ rm -rf dist
 # package-lock.json, but tolerates a known npm quirk where optional
 # WebAssembly-only packages (@emnapi/*) are missing from the lock file,
 # which makes `npm ci` fail on Netlify.
-(cd home && npm install --no-audit --no-fund && npm run build)
+(cd garden && npm install --no-audit --no-fund && npm run build)
 
 echo "==> Rendering notes into dist/notes"
 (cd notes && quarto render)

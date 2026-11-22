@@ -9,6 +9,10 @@
 /_to_delete/
 /home/node_modules/
 /home/.astro/
+/home/dist/
+/garden/node_modules/
+/garden/.astro/
+/garden/dist/
 *_files/
 *_cache/
 

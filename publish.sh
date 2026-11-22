@@ -25,7 +25,7 @@ if [[ "${SKIP_RENDER:-0}" != "1" ]]; then
   fi
   if command -v npm >/dev/null 2>&1; then
     echo "==> Building main site (local check)"
-    (cd home && { [[ -d node_modules ]] || npm install; } && npm run build)
+    (cd garden && { [[ -d node_modules ]] || npm install; } && npm run build)
   else
     echo "   (npm not found; skipping the main-site check. Netlify will still build it.)"
   fi
