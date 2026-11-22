@@ -1,0 +1,36 @@
+---
+title: "Introduction"
+description: "Welcome!"
+date: 2026-11-19
+categories: [algebra, foundations]
+image: /assets/images/thumbnails/what-is-a-group.jpg
+---
+
+Hello, and welcome to my notes on abstract algebra! 
+
+What is Abstract Algebra? At its core:
+
+::: {.callout-important}
+## Abstract Algebra
+Abstract Algebra is the study of structure and symmetry, extending the familiar rules of algebra on the real numbers to 
+any structure
+:::
+
+What does this mean? Let's take the following example:
+
+$$
+1 + 2 = 3
+$$
+
+This is a familiar equation! We have an operation, addition ( $+$ ), and elements 
+that this operation acts on.
+
+What are some of the properties of this operation?
+
+1. **Associativity.** We know that $(a + b) + c = a + (b + c)$
+2. **Identity.** There exists an element $0$ such that $a + 0 = a$ for all $a$
+3. **Inverses.** For each number $a$ there's an *inverse* $b$ such that $a + b = 0$. We know these better as the *negative numbers*
+
+W
+
+## The definition
