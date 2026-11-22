@@ -1,11 +1,12 @@
 ---
 import Base from '../layouts/base.astro'
+import Card from '../components/card.astro'
 ---
 
 <Base>
 	<section class="hero">
 		<div class="wrap hero-inner">
-			<p>neilshahcosmos - a digital garden</p>
+			<p class="label hero-label">neilshahcosmos · a digital garden</p>
 			<h1>
 				My journey to better understand the <em>mathematical foundation</em> of the universe!
 			</h1>
@@ -19,4 +20,85 @@ import Base from '../layouts/base.astro'
 			</div>
 		</div>
 	</section>
+
+	<section class="wrap section">
+		<header class="section-head">
+			<div>
+				<h2>Cards!</h2>
+			</div>
+		</header>
+		<div class="grid">
+			<Card title="Card 1" description="Card 1" href="/about/" img="https://cdn.mos.cms.futurecdn.net/iB3z4tNs8nig8Qn9WsfHCX.jpg" />
+			<Card title="Card 2" description="Card 2" href="/about/" img="https://cdn.mos.cms.futurecdn.net/iB3z4tNs8nig8Qn9WsfHCX.jpg" />
+			<Card title="Card 3" description="Card 3" href="/about/" img="https://cdn.mos.cms.futurecdn.net/iB3z4tNs8nig8Qn9WsfHCX.jpg" />
+		</div>
+	</section>
+
+	<style>
+		.hero {
+			position: relative;
+			min-height: min(80vh, 800px);
+			display: flex;
+			align-items: center;
+			overflow: hidden;
+			margin-top: -1px;
+		}
+		.hero-inner {
+			position: relative;
+			z-index: 1;
+			padding-block: 6rem;
+		}
+		.hero-label {
+			color: var(--nebula);
+			margin-bottom: 1.4rem;
+		}
+		.hero h1 {
+			font-size: var(--font-size-5);
+			font-weight: 400;
+			max-width: 32ch;
+			line-height: 1.05;
+			letter-spacing: -0.02em;
+			margin-bottom: 1.6rem;
+		}
+		.hero h1 em {
+			font-style: italic;
+			background: linear-gradient(100deg, #e5cfff 10%, #c49af5 40%, #7fd8ea 75%, #ffd57e 100%);
+			background-clip: text;
+			color: transparent;
+		}
+		.btn {
+			display: inline-flex;
+			align-items: center;
+			padding: 0.75rem 1.35rem;
+			border-radius: 999px;
+			border: 1px solid var(--border-strong);
+			color: var(--text);
+			text-decoration: none;
+			font-weight: 500;
+			font-size: 0.95rem;
+			background: rgba(255, 255, 255, 0.03);
+			backdrop-filter: blur(6px);
+			transition: background 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+		}
+		.btn:hover {
+			background: rgba(255, 255, 255, 0.10);
+			color: #ffffff;
+			transform: translateY(-1px);
+		}
+		.btn-primary {
+			background: linear-gradient(135deg, rgba(196,154,245,0.9), rgba(127,140,240,0.9));
+			border-color: transparent;
+			color: #0b0718;
+		}
+		.btn-primary:hover {
+			background: linear-gradient(135deg, #d7b6ff, #9aa6ff); 
+			box-shadow: 0 0 30px rgba(196,154,245,0.45);
+			color: #0b0718;
+		}
+		.grid {
+			display: grid;
+			gap: 1.3rem;
+			grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		}
+	</style>
 </Base>

@@ -1,0 +1,51 @@
+---
+/* 
+ * Card for any garden entry
+ * `variant="feature"` shows the cover image
+ * `variant="row"` is a compact title line (for thoughts)
+ */
+
+interface Props {
+    title: string;
+    description?: string;
+    href: string;
+    img: string;
+}
+const {
+    title,
+    description,
+    href,
+    img
+} = Astro.props
+---
+
+<a class="card" href={href}>
+    <div class="card-cover">
+        <img src={img} alt="" loading="lazy" />
+    </div>
+    <div class="card-body">
+        <h3>{title}</h3>
+        <p class="card-desc">{description}</p>
+    </div>
+</a>
+
+<style>
+    .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015));
+        color: var(--text);
+        text-decoration: none;
+        overflow: hidden;
+        transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1.0), border-color 0.25s, box-shadow 0.25s;
+    }
+    .card:hover {
+        transform: translateY(-4px);
+        border-color: var(--border-strong);
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.50), 0 0 40px rgba(150, 110, 230, 0.10);
+    }
+</style>

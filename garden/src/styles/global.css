@@ -25,6 +25,16 @@
     --font-body: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
     --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', monospace;
 
+    --font-size-0: 1.00rem;
+    --font-size-1: 1.20rem;
+    --font-size-2: 1.45rem;
+    --font-size-3: 1.75rem;
+    --font-size-4: 2.10rem;
+    --font-size-5: 2.50rem;
+
+    --radius: 15px;
+    --wide: 1200px;
+    --prose: 70ch;
     color-scheme: dark;
 }
 
@@ -42,17 +52,17 @@ body {
 
 a {
     color: var(--link);
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.18em;
+    /* takes the underline under underlined text and offset it down */
+    text-underline-offset: 0.2em;
 }
 a:hover {
     color: #ffffff;
 }
 
-/* A line-height of 1.15 helps headings look more spaced evenly */
 h1, h2, h3, h4 {
     font-family: var(--font-display);
     font-weight: 500;
+    /* A line-height of 1.15 helps headings look more spaced evenly */
     line-height: 1.15;
     margin: 0 0 0.5em;
 }
@@ -88,7 +98,7 @@ img {
     z-index: 50;
     width: min(350px, 90vw);
     padding: 1rem;
-    border-radius: 12pm;
+    border-radius: 12px;
     background: rgba(14, 13, 32, 0.96);
     border: 1px solid var(--border-strong);
     box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;

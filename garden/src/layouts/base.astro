@@ -28,7 +28,7 @@ const path = Astro.url.pathname;
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width-decide-width, initial-scale=1" />
+        <meta name="viewport" content="width=decide-width, initial-scale=1" />
         <meta name="description" content="Neil Shah's digital garden: notes on mathematics and physics" />
         <title>{fulltitle}</title>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -99,13 +99,10 @@ const path = Astro.url.pathname;
             nav a {
                 display: block;
                 padding: 0.5rem 0.75rem;
-                border-radius: 999px;
                 color: var(--muted);
                 text-decoration: none;
                 font-size: 0.9rem;
-                white-space: nowrap;
-                transition: color 0.2s;
-                background: 0.2s;
+                transition: color 0.2s, background 0.2s;
             }
             nav a:hover {
                 color: var(--text);
@@ -126,7 +123,7 @@ const path = Astro.url.pathname;
             }
             .header-inner {
                 display: flex;
-                align-items: centeer;
+                align-items: center;
                 justify-content: space-between;
                 gap: 1.5rem;
                 min-height: 64px;
