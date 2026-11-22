@@ -1,0 +1,102 @@
+:root {
+    /* Colors! */
+    /* Space */
+    --bg: #06060f;
+    --bg-2: #0b0b1c;
+    --surface: rgba(255, 255, 255, 0.035);
+    --surface-hover: rgba(255, 255, 255, 0.06);
+    --border: rgba(170, 165, 255, 0.13);
+    --border-strong: rgba(190, 180, 255, 0.28);
+
+    /* Text */
+    --text: #ecebf7;
+    --muted: #a9a7c6;
+    --faint: #737196;
+
+    /* Light sources */
+    --nebula: #c49af5;
+    --protostar: #ff9f80;
+    --star: #ffd57e;
+    --ion: #7fd8ea;
+    --rose: #f39ec0;
+    --link: #b9b2ff;
+
+    --font-display: 'Fraunces Variable', 'Iowan Old Style', Georgia, serif;
+    --font-body: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', monospace;
+
+    color-scheme: dark;
+}
+
+/*  ====================================================================================================
+    Tags
+    ==================================================================================================== */ 
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+}
+
+a {
+    color: var(--link);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+}
+a:hover {
+    color: #ffffff;
+}
+
+/* A line-height of 1.15 helps headings look more spaced evenly */
+h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 1.15;
+    margin: 0 0 0.5em;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/*  ====================================================================================================
+    Classes
+    ==================================================================================================== */ 
+
+.wrap {
+    /* Fit the width of the screen, up to a minimum for wide screens */
+    width: min(100% - 2.5rem, var(--wide));
+    /* this centers the .wrap content inside the parent */
+    margin-inline: auto;
+}
+
+.label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--faint);
+}
+
+.preview-card {
+    /*  */
+    position: fixed;
+    z-index: 50;
+    width: min(350px, 90vw);
+    padding: 1rem;
+    border-radius: 12pm;
+    background: rgba(14, 13, 32, 0.96);
+    border: 1px solid var(--border-strong);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+    backdrop-filter: blur(10px);
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}

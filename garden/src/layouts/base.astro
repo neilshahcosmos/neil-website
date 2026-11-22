@@ -1,0 +1,184 @@
+---
+import { pathHasLocale } from 'astro:i18n';
+import '../styles/global.css'
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+    title,
+    description = "Neil Shah's digital garden: notes on mathematics and physics",
+} = Astro.props;
+const fulltitle = title ? `${title} · Neil Shah` : "Neil Shah"
+
+const nav = [
+    { href: '/garden/',   label: 'Garden' },
+    { href: '/essays/',   label: 'Essays' },
+    { href: '/thoughts/', label: 'Thoughts' },
+    { href: '/notes/',    label: 'Notes' },
+    { href: '/projects/', label: 'Projects' },
+    { href: '/reviews/',  label: 'Reviews' },
+    { href: '/about/',    label: 'About' },
+]
+const path = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width-decide-width, initial-scale=1" />
+        <meta name="description" content="Neil Shah's digital garden: notes on mathematics and physics" />
+        <title>{fulltitle}</title>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    </head>
+
+    <body>
+        <header class="site-header">
+            <div class="wrap header-inner">
+                <a class="brand" href="/" aria-label="Neil Shah Home">
+                    <span>Neil Shah</span>
+                </a>
+                <nav class="navigation" aria-label="Main">
+                    <ul>
+                        {
+                            nav.map((n) => (
+                                <li>
+                                    <a href={n.href} aria-current={path.startsWith(n.href) ? 'page' : undefined}>
+                                        {n.label}
+                                    </a>
+                                </li>
+                            ))
+                        }
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <main id="main">
+            <slot />
+        </main>
+
+        <footer class="site-footer">
+            <div class="wrap footer-inner">
+                <div>
+                    <p class="footer-title">Neil Shah</p>
+                    <p class="muted">A digital garden!</p>
+                </div>
+                <ul class="footer-links">
+                    <li><a href="/garden/">Garden</a></li>
+                    <li><a href="/essays/">Essays</a></li>
+                    <li><a href="/thoughts/">Thoughts</a></li>
+                    <li><a href="/notes/">Math</a></li>
+                    <li><a href="/projects/">Projects</a></li>
+                    <li><a href="/reviews/">Reviews</a></li>
+                    <li><a href="/about/">About</a></li>
+                </ul>
+            </div>
+        </footer>
+
+        <script>
+            /* Placeholder */
+        </script>
+
+        <style>
+            /* * {
+                border: 1px solid red;
+            } */
+            main {
+                min-height: 70vh;
+            }
+            nav ul {
+                display: flex;
+                gap: 0.2rem;
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+            nav a {
+                display: block;
+                padding: 0.5rem 0.75rem;
+                border-radius: 999px;
+                color: var(--muted);
+                text-decoration: none;
+                font-size: 0.9rem;
+                white-space: nowrap;
+                transition: color 0.2s;
+                background: 0.2s;
+            }
+            nav a:hover {
+                color: var(--text);
+                background: var(--surface-hover);
+            }
+            nav a[aria-current='page'] {
+                color: var(--text);
+                background: rgba(196, 154, 245, 0.1);
+            }
+
+            .site-header {
+                position: sticky;
+                top: 0;
+                z-index: 40;
+                backdrop-filter: blur(15px) saturate(140%);
+                background: rgba(6, 6, 15, 0.8);
+                border-bottom: 2px solid rgba(170, 165, 255, 0.1);
+            }
+            .header-inner {
+                display: flex;
+                align-items: centeer;
+                justify-content: space-between;
+                gap: 1.5rem;
+                min-height: 64px;
+            }
+            .brand {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                color: var(--text);
+                text-decoration: none;
+                font-family: var(--font-display);
+                font-size: 1.2rem;
+                font-weight: 500;
+                white-space: nowrap;
+            }
+            .site-footer {
+                margin-top: 5rem;
+                border-top: 1px solid var(--border);
+                padding-block: 2.5rem 3rem;
+                font-size: 0.9rem;
+            }
+            .footer-inner {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                gap: 1.5rem;
+            }
+            .footer-title {
+                font-family: var(--font-display);
+                font-size: 1.15rem;
+                margin: 0 0 0.2rem;
+            }
+            .muted {
+                color: var(--muted);
+                margin: 0;
+            }
+            .footer-links {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem 1.2rem;
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                align-items: center;
+            }
+            .footer-links a {
+                color: var(--muted);
+                text-decoration: none;
+            }
+            .footer-links a:hover {
+                color: var(--text);
+            }
+        </style>
+    </body>
+</html>
