@@ -10,7 +10,7 @@ import Card from '../components/card.astro'
 			<h1>
 				My journey to better understand the <em>mathematical foundation</em> of the universe!
 			</h1>
-			<p>
+			<p class="hero-desc">
 				Notes on Abstract Algebra, Lie theory, and Quantum Field Theory, alongside essays and thoughts,
 				code, games, and films. Everything grows slowly, like stars condensing!
 			</p>
@@ -28,9 +28,9 @@ import Card from '../components/card.astro'
 			</div>
 		</header>
 		<div class="grid">
-			<Card title="Card 1" description="Card 1" href="/about/" img="https://cdn.mos.cms.futurecdn.net/iB3z4tNs8nig8Qn9WsfHCX.jpg" />
-			<Card title="Card 2" description="Card 2" href="/about/" img="https://cdn.mos.cms.futurecdn.net/iB3z4tNs8nig8Qn9WsfHCX.jpg" />
-			<Card title="Card 3" description="Card 3" href="/about/" img="https://cdn.mos.cms.futurecdn.net/iB3z4tNs8nig8Qn9WsfHCX.jpg" />
+			<Card title="Card 1" description="This is a card, with a test description!" subtitle="Hey this is a test!" href="/about/" img="https://cdn.mos.cms.futurecdn.net/iB3z4tNs8nig8Qn9WsfHCX.jpg" />
+			<Card title="Card 2" description="This is a card, with a test description!" subtitle="Hey this is a test!" href="/about/" img="https://cdn.mos.cms.futurecdn.net/iB3z4tNs8nig8Qn9WsfHCX.jpg" />
+			<Card title="Card 3" description="This is a card, with a test description!" subtitle="Hey this is a test!" href="/about/" img="https://cdn.mos.cms.futurecdn.net/iB3z4tNs8nig8Qn9WsfHCX.jpg" />
 		</div>
 	</section>
 
@@ -42,15 +42,6 @@ import Card from '../components/card.astro'
 			align-items: center;
 			overflow: hidden;
 			margin-top: -1px;
-		}
-		.hero-inner {
-			position: relative;
-			z-index: 1;
-			padding-block: 6rem;
-		}
-		.hero-label {
-			color: var(--nebula);
-			margin-bottom: 1.4rem;
 		}
 		.hero h1 {
 			font-size: var(--font-size-5);
@@ -65,6 +56,27 @@ import Card from '../components/card.astro'
 			background: linear-gradient(100deg, #e5cfff 10%, #c49af5 40%, #7fd8ea 75%, #ffd57e 100%);
 			background-clip: text;
 			color: transparent;
+		}
+		.hero-inner {
+			position: relative;
+			z-index: 1;
+			padding-block: 6rem;
+		}
+		.hero-label {
+			color: var(--nebula);
+			margin-bottom: 1.4rem;
+		}
+		.hero-desc {
+			max-width: 56ch;
+			font-size: var(--font-size-1);
+			color: var(--muted);
+			line-height: 1.5;
+			margin: 0 0 2rem;
+		}
+		.hero-links {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.8rem;
 		}
 		.btn {
 			display: inline-flex;

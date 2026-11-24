@@ -1,6 +1,9 @@
 ---
+import '@fontsource-variable/fraunces';
+import '@fontsource/jetbrains-mono/400.css';
 import { pathHasLocale } from 'astro:i18n';
 import '../styles/global.css'
+import Brand from '../../public/brand.svg'
 
 interface Props {
   title?: string;
@@ -21,6 +24,7 @@ const nav = [
     { href: '/reviews/',  label: 'Reviews' },
     { href: '/about/',    label: 'About' },
 ]
+
 const path = Astro.url.pathname;
 ---
 
@@ -38,6 +42,7 @@ const path = Astro.url.pathname;
         <header class="site-header">
             <div class="wrap header-inner">
                 <a class="brand" href="/" aria-label="Neil Shah Home">
+                    <Brand />
                     <span>Neil Shah</span>
                 </a>
                 <nav class="navigation" aria-label="Main">
@@ -98,10 +103,11 @@ const path = Astro.url.pathname;
             }
             nav a {
                 display: block;
-                padding: 0.5rem 0.75rem;
+                border-radius: 999px;
+                padding: 0.50rem 0.75rem;
                 color: var(--muted);
                 text-decoration: none;
-                font-size: 0.9rem;
+                font-size: 0.95rem;
                 transition: color 0.2s, background 0.2s;
             }
             nav a:hover {

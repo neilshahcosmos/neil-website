@@ -5,18 +5,24 @@
  * `variant="row"` is a compact title line (for thoughts)
  */
 
+import "../styles/global.css"
+import { fmt_date } from '../lib/garden';
+
 interface Props {
     title: string;
+    subtitle?: string;
     description?: string;
     href: string;
     img: string;
 }
 const {
     title,
+    subtitle,
     description,
     href,
     img
 } = Astro.props
+const today = new Date();
 ---
 
 <a class="card" href={href}>
@@ -24,7 +30,11 @@ const {
         <img src={img} alt="" loading="lazy" />
     </div>
     <div class="card-body">
-        <h3>{title}</h3>
+        <div class="card-meta">
+            <span class="label">{fmt_date(today)}</span>
+        </div>
+        <h3 class="card-title">{title}</h3>
+        <p class="card-subtitle">{subtitle}</p>
         <p class="card-desc">{description}</p>
     </div>
 </a>
@@ -41,11 +51,55 @@ const {
         color: var(--text);
         text-decoration: none;
         overflow: hidden;
-        transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1.0), border-color 0.25s, box-shadow 0.25s;
+        transition: transform 0.25s cubic-bezier(0.20, 0.80, 0.20, 1.00), border-color 0.25s, box-shadow 0.25s;
     }
     .card:hover {
         transform: translateY(-4px);
         border-color: var(--border-strong);
         box-shadow: 0 20px 45px rgba(0, 0, 0, 0.50), 0 0 40px rgba(150, 110, 230, 0.10);
+    }
+    .card-cover {
+        position: relative;
+        aspect-ratio: 16.0 / 9.0;
+        overflow: hidden;
+        background: #05050d;
+    }
+    .card-cover img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s cubic-bezier(0.20, 0.80, 0.20, 1.00);
+    }
+    .card:hover .card-cover img {
+        transform: scale(1.06);
+    }
+    .card-body {
+        padding: 1.1rem 1.2rem 1.3rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+    }
+    .card-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.3rem;
+    }
+    .card-title {
+        font-size: var(--font-size-1);
+        margin: 0;
+    }
+    .card-subtitle {
+        margin: 0;
+        color: var(--muted);
+        font-family: var(--font-display);
+        font-style: italic;
+    }
+    .card-desc {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.50;
     }
 </style>

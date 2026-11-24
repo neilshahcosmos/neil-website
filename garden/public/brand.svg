@@ -1,0 +1,11 @@
+<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+  <defs>
+    <radialGradient id="brandglow">
+      <stop offset="0" stop-color="#fff" />
+      <stop offset="0.45" stop-color="#ffd57e" stop-opacity="0.55" />
+      <stop offset="1" stop-color="#c49af5" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <circle cx="12" cy="12" r="11" fill="url(#brandglow)" />
+  <path d="M12 2 L13.3 10.7 L22 12 L13.3 13.3 L12 22 L10.7 13.3 L2 12 L10.7 10.7 Z" fill="#fff6dd" />
+</svg>
