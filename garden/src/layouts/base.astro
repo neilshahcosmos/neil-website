@@ -8,10 +8,16 @@ import Brand from '../../public/brand.svg'
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
+  stage?: string;
+  kind?: string;
 }
 const {
     title,
     description = "Neil Shah's digital garden: notes on mathematics and physics",
+    image = '/images/og-default.jpg',
+    stage,
+    kind
 } = Astro.props;
 const fulltitle = title ? `${title} · Neil Shah` : "Neil Shah"
 

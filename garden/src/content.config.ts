@@ -12,6 +12,7 @@ const common = {
     description: z.string(),
     date: z.coerce.date(),
     updated: z.coerce.date().optional(),
+    cover: z.string().optional(),
 }
 
 const essays = defineCollection({
@@ -25,4 +26,35 @@ const essays = defineCollection({
     }),
 });
 
-export const collections = { essays };
+const thoughts = defineCollection({
+    loader: glob({
+        pattern: '**/[^_]*.{md,mdx}',
+        base: './src/content/thoughts'
+    }),
+    schema: z.object({ 
+        ...common,
+    }),
+});
+
+const projects = defineCollection({
+    loader: glob({
+        pattern: '**/[^_]*.{md,mdx}',
+        base: './src/content/projects'
+    }),
+    schema: z.object({ 
+        ...common, 
+        kind: z.enum(['code', 'game', 'tool', 'site', 'other']).default('code'),
+    }),
+});
+
+const reviews = defineCollection({
+    loader: glob({
+        pattern: '**/[^_]*.{md,mdx}',
+        base: './src/content/reviews'
+    }),
+    schema: z.object({ 
+        ...common,
+    }),
+});
+
+export const collections = { essays, thoughts, projects, reviews };

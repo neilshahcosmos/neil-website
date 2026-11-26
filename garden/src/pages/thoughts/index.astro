@@ -1,0 +1,55 @@
+---
+import Base from '../../layouts/base.astro'
+import Card from '../../components/card.astro'
+import { getCollection } from 'astro:content';
+
+const list = await getCollection('thoughts');
+---
+
+<Base title="Thoughts" description='Short, loose notes on things I am still figuring out.'>
+    <div class="wrap page">
+        <header class="page-head">
+            <p class="eyebrow">The garden</p>
+            <h1>Thoughts</h1>
+            <p class="lede">Short, loose notes on things I am still figuring out.</p>
+        </header>
+        {
+            list.length === 0 ? (
+                <p class="empty">Nothing here yet! The first thought is still a cloud of gas</p>
+            ) : (
+                <div class:list={['list', `list-feature`]}>
+                    {
+                        list.map((e) => <Card title={e.data.title} href={`/thoughts/${e.id}/`} img="https://cdn.mos.cms.futurecdn.net/iB3z4tNs8nig8Qn9WsfHCX.jpg"/>)
+                    }
+                </div>
+            )
+        }
+    </div>
+</Base>
+
+<style>
+    .page {
+        padding-top: 4rem;
+    }
+    .page-head {
+        margin-bottom: 2.5rem;
+        max-width: 60ch;
+    }
+    .page-head h1 {
+        font-size: var(--font-size-5);
+        font-weight: 400;
+        margin-bottom: 0.3em;
+    }
+    .lede {
+        color: var(--muted);
+        font-size: var(--font-size-1);
+        margin: 0;
+    }
+    .list {
+        display: grid;
+        gap: 1.25rem;
+    }
+    .list-feature {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+</style>

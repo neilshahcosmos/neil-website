@@ -94,7 +94,7 @@ img {
     margin-inline: auto;
 }
 
-.label {
+.eyebrow {
     font-family: var(--font-mono);
     font-size: 0.7rem;
     letter-spacing: 0.15em;
@@ -119,4 +119,21 @@ img {
     transition: opacity 0.15s ease, transform 0.15s ease;
     font-size: 0.9rem;
     line-height: 1.5;
+}
+
+/*  ====================================================================================================
+    Prose (essay, note bodies)
+    ==================================================================================================== */ 
+
+.prose {
+    max-width: var(--prose);
+    font-size: var(--font-size-0);
+}
+
+.prose > * {
+    margin-block: 0;
+}
+
+.prose > * + * {
+    margin-top: 1.15em;
 }

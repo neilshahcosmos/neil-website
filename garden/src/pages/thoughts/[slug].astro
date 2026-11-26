@@ -1,0 +1,44 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection, render } from "astro:content";
+import Base from '../../layouts/base.astro'
+
+export async function getStaticPaths() {
+    const posts = await getCollection('thoughts');
+    return posts.map((post) => ({
+        params: { slug: post.id }, // Matches [slug].astro
+        props: { post }, // Passes full entry to Astro.props
+    }));
+}
+
+const { post } = Astro.props;
+const data = post.data
+const { Content } = await render(post);
+---
+
+<Base title={data.title} description={data.description} image={data.cover}>
+    <article class="entry">
+        <!-- image cover -->
+        {data.cover && (
+            <div class="cover"><img src={data.cover} alt="" /><div class="cover-fade"></div></div>
+        )}
+
+        <!-- content -->
+        <div class:list={['wrap', 'entry-inner', { 'has-cover': data.cover }]}>
+            <header class="entry-head">
+                <a class="eyebrow">Thought</a>
+                <h1>{data.title}</h1>
+                <p class="description">{data.description}</p>
+            </header>
+            <div class="prose">
+                <Content />
+            </div>
+        </div>
+    </article>
+</Base>
+
+<style>
+    .entry-inner {
+        padding-top: 4rem;
+    }
+</style>
