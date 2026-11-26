@@ -1,0 +1,164 @@
+---
+/*
+ * Animated starfield for the homepage hero!
+ * Pauses when off-screen or in a background tab
+ */
+---
+
+<canvas class="starfield" aria-hidden="true"></canvas>
+
+<style>
+    .starfield {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        min-height: 100%;
+        display: block;
+    }
+</style>
+
+<script>
+    const canvas = document.querySelectorAll<HTMLCanvasElement>('canvas.starfield')[0];
+    const context = canvas.getContext('2d')!;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let visible = true;
+
+    let width = 0;
+    let height = 0;
+    let pixel_ratio = 1;
+    let mx = 0;
+    let my = 0;
+    let px = 0;
+    let py = 0;
+
+    type Star = {
+        x: number;
+        y: number;
+        depth: number;
+        radius: number;
+        tw: number;
+        sp: number;
+        hue: string;
+    };
+    let stars: Star[] = [];
+    let shoot: {
+        x: number;
+        y: number;
+        vx: number;
+        vy: number;
+        life: number;
+    } | null = null;
+    let next_shoot = performance.now() + 1000;
+
+    const hues = [
+        '255,255,255',
+        '255,240,220',
+        '210,225,255',
+        '255,220,200',
+        '225,210,255'
+    ];
+
+    function resize() {
+        pixel_ratio = Math.min(window.devicePixelRatio || 1, 2);
+        width = canvas.clientWidth;
+        height = canvas.clientHeight;
+        canvas.width = width * pixel_ratio;
+        canvas.height = height * pixel_ratio;
+        context.setTransform(pixel_ratio, 0, 0, pixel_ratio, 0, 0);
+
+        const num = Math.round((width * height) / 2600);
+        stars = Array.from({length: num}, () => {
+            const z = Math.random() ** 2;
+            return {
+                x: Math.random() * width,
+                y: Math.random() * height,
+                depth: z,
+                radius: 1.00 + 1.50 * z,
+                tw: Math.random() * 2 * Math.PI,
+                sp: 1.5 * Math.random() + 0.5,
+                hue: hues[(Math.random() * hues.length) | 0]
+            };
+        });
+    }
+
+    function draw(t: number) {
+        context.clearRect(0, 0, width, height);
+        px += 0.04 * (mx - px);
+        py += 0.04 * (my - py);
+
+        for (const star of stars) {
+            if (!reduce) {
+                star.x -= 0.02 + 0.12 * star.depth;
+                if (star.x < -2) {
+                    star.x = 2.00 + width;
+                }
+            }
+            const x = star.x + 18.00 * px * star.depth;
+            const y = star.y + 12.00 * py * star.depth;
+            const alpha = reduce ? 0.80 : (0.45 + 0.55 * (0.50 + 0.50 * Math.sin(t / 1000 * star.sp + star.tw)));
+            context.globalAlpha = (0.35 + 0.65 *  star.depth) * alpha;
+            context.fillStyle = `rgb(${star.hue})`;
+
+            context.beginPath();
+            context.arc(x, y, star.radius, 0, 2 * Math.PI);
+            context.fill();
+        }
+
+        context.globalAlpha = 1.0;
+        if (reduce) {
+            return;
+        }
+
+        if (!shoot && t > next_shoot) {
+            shoot = {
+                x: (0.3 + 0.7 * Math.random()) * width,
+                y: 0.4 * Math.random() * height,
+                vx: -7 - 4 * Math.random(),
+                vy: 3 + 2 * Math.random(),
+                life: 1
+            };
+        }
+        if (shoot) {
+            const gradient = context.createLinearGradient(
+                shoot.x,
+                shoot.y,
+                shoot.x - 12.00 * shoot.vx,
+                shoot.y - 12.00 * shoot.vy
+            );
+            gradient.addColorStop(0.00, `rgba(255, 255, 255, ${shoot.life})`);
+            gradient.addColorStop(1.00, `rgba(255, 255, 255, 0)`);
+            context.strokeStyle = gradient;
+            context.lineWidth = 1.30;
+            context.beginPath();
+            context.moveTo(shoot.x, shoot.y);
+            context.lineTo(shoot.x - 12.00 * shoot.vx, shoot.y - 12.00 * shoot.vy);
+            context.stroke();
+            shoot.x += shoot.vx;
+            shoot.y += shoot.vy;
+            shoot.life -= 0.01;
+            if (shoot.life <= 0) {
+                shoot = null;
+                next_shoot = t + 100 + 1000 * Math.random();
+            }
+        }
+    }
+
+    function loop(t: number) {
+        if (visible && !document.hidden) {
+            draw(t);
+        }
+        if (!reduce) {
+            requestAnimationFrame(loop);
+        }
+    }
+
+    resize();
+    new ResizeObserver(resize).observe(canvas);
+    new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(canvas)
+
+    if (reduce) {
+        draw(0);
+    } else {
+        requestAnimationFrame(loop);
+    }
+</script>
