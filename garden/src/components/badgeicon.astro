@@ -1,0 +1,65 @@
+---
+/*
+ * small icons for the three growth stages 
+ */
+
+interface Props {
+    stage: 'nebula' | 'protostar' | 'star';
+    size?: number
+}
+const {
+    stage,
+    size = 16
+} = Astro.props
+const id = `g${Math.random().toString(36).slice(2, 8)}`
+---
+
+<svg class={`stage-icon stage-${stage}`} width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
+    {stage === 'nebula' && (
+        <>
+            <defs>
+            <radialGradient id={id}>
+                <stop offset="0" stop-color="#e2c8ff" stop-opacity="0.95" />
+                <stop offset="0.5" stop-color="#c49af5" stop-opacity="0.45" />
+                <stop offset="1" stop-color="#c49af5" stop-opacity="0" />
+            </radialGradient>
+            </defs>
+            <ellipse cx="10" cy="13" rx="9" ry="7" fill={`url(#${id})`} />
+            <ellipse cx="15" cy="10" rx="7" ry="6" fill={`url(#${id})`} />
+            <circle cx="12.5" cy="11.5" r="1.1" fill="#fff" opacity="0.8" />
+        </>
+    )}
+    {stage === 'protostar' && (
+    <>
+        <defs>
+        <radialGradient id={id}>
+            <stop offset="0" stop-color="#fff4e6" />
+            <stop offset="0.35" stop-color="#ff9f80" stop-opacity="0.9" />
+            <stop offset="1" stop-color="#ff9f80" stop-opacity="0" />
+        </radialGradient>
+        </defs>
+        <circle cx="12" cy="12" r="8" fill={`url(#${id})`} />
+        <ellipse cx="12" cy="12" rx="10.5" ry="3.2" fill="none" stroke="#ffb59e" stroke-width="1.1" opacity="0.8" transform="rotate(-18 12 12)" />
+    </>
+    )}
+    {stage === 'star' && (
+    <>
+        <defs>
+        <radialGradient id={id}>
+            <stop offset="0" stop-color="#fff" />
+            <stop offset="0.4" stop-color="#ffd57e" stop-opacity="0.6" />
+            <stop offset="1" stop-color="#ffd57e" stop-opacity="0" />
+        </radialGradient>
+        </defs>
+        <circle cx="12" cy="12" r="9" fill={`url(#${id})`} />
+        <path d="M12 1.5 L13.4 10.6 L22.5 12 L13.4 13.4 L12 22.5 L10.6 13.4 L1.5 12 L10.6 10.6 Z" fill="#ffe7b0" />
+    </>
+    )}
+</svg>
+
+<style>
+    .stage-icon {
+        flex: none;
+        overflow: visible;
+    }
+</style>

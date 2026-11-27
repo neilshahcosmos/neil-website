@@ -5,37 +5,37 @@
  * `variant="row"` is a compact title line (for thoughts)
  */
 
-import "../styles/global.css"
-import { fmt_date } from '../lib/garden';
+import "../styles/global.css";
+import { get_url_from_entry, fmt_date, PAGE_TYPE_LABEL, type Entry  } from '../lib/garden';
+
+import Badge from './badge.astro';
 
 interface Props {
-    title: string;
-    subtitle?: string;
-    description?: string;
-    href: string;
-    img: string;
-}
+    entry: Entry;
+    show_page_type?: boolean
+};
 const {
-    title,
-    subtitle,
-    description,
-    href,
-    img
-} = Astro.props
-const today = new Date();
+    entry,
+    show_page_type,
+} = Astro.props;
+
+const data = entry.data as any;
+const href = get_url_from_entry(entry);
+const page_type_label = PAGE_TYPE_LABEL[entry.collection].one;
 ---
 
-<a class="card" href={href}>
+<a class="card" href={href} data-preview>
     <div class="card-cover">
-        <img src={img} alt="" loading="lazy" />
+        {data.cover ? <img src={data.cover} alt="" loading="lazy" /> : <div class="cover-fallback"></div>}
     </div>
     <div class="card-body">
         <div class="card-meta">
-            <span class="eyebrow">{fmt_date(today)}</span>
+            <span class="eyebrow">{fmt_date(data.date)}</span>
+            <Badge stage={data.stage} />
         </div>
-        <h3 class="card-title">{title}</h3>
-        <p class="card-subtitle">{subtitle}</p>
-        <p class="card-desc">{description}</p>
+        <h3 class="card-title">{data.title}</h3>
+        {data.subtitle && <p class="subtitle">{data.subtitle}</p>}
+        <p class="card-desc">{data.description}</p>
     </div>
 </a>
 
@@ -72,6 +72,13 @@ const today = new Date();
     }
     .card:hover .card-cover img {
         transform: scale(1.06);
+    }
+    .cover-fallback {
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(ellipse at 70% 30%, rgba(196,154,245,0.35), transparent 60%), 
+                    radial-gradient(ellipse at 20% 80%, rgba(127,216,234,0.25), transparent 60%), 
+                    #08081a;
     }
     .card-body {
         padding: 1.1rem 1.2rem 1.3rem;

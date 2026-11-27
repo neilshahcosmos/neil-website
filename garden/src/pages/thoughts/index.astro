@@ -3,7 +3,10 @@ import Base from '../../layouts/base.astro'
 import Card from '../../components/card.astro'
 import { getCollection } from 'astro:content';
 
-const list = await getCollection('thoughts');
+const thoughts = await getCollection('thoughts');
+const sorted_thoughts = thoughts.sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
 ---
 
 <Base title="Thoughts" description='Short, loose notes on things I am still figuring out.'>
@@ -14,12 +17,13 @@ const list = await getCollection('thoughts');
             <p class="lede">Short, loose notes on things I am still figuring out.</p>
         </header>
         {
-            list.length === 0 ? (
+            sorted_thoughts.length === 0 ? (
                 <p class="empty">Nothing here yet! The first thought is still a cloud of gas</p>
             ) : (
                 <div class:list={['list', `list-feature`]}>
                     {
-                        list.map((e) => <Card title={e.data.title} href={`/thoughts/${e.id}/`} img="https://cdn.mos.cms.futurecdn.net/iB3z4tNs8nig8Qn9WsfHCX.jpg"/>)
+                        sorted_thoughts.map((e) => 
+                        <Card entry={e}/>)
                     }
                 </div>
             )

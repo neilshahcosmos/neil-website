@@ -2,7 +2,7 @@
 title: Groups are about symmetry, not sets
 description: The definition of a group is a list of axioms, but the reason to care is that groups capture the way symmetries compose.
 date: 2026-11-20
-stage: nebula
+stage: star
 topics: [groups, symmetry]
 ---
 

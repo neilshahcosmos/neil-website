@@ -2,6 +2,9 @@
 import Base from '../layouts/base.astro'
 import Starfield from '../components/starfield.astro'
 import Card from '../components/card.astro'
+import { fmt_date } from '../lib/garden';
+
+const today = new Date();
 ---
 
 <Base>
@@ -30,9 +33,6 @@ import Card from '../components/card.astro'
 			</div>
 		</header>
 		<div class="grid">
-			<Card title="Card 1" description="This is a card, with a test description!" subtitle="Hey this is a test!" href="/about/" img="https://cdn.mos.cms.futurecdn.net/iB3z4tNs8nig8Qn9WsfHCX.jpg" />
-			<Card title="Card 2" description="This is a card, with a test description!" subtitle="Hey this is a test!" href="/about/" img="https://cdn.mos.cms.futurecdn.net/iB3z4tNs8nig8Qn9WsfHCX.jpg" />
-			<Card title="Card 3" description="This is a card, with a test description!" subtitle="Hey this is a test!" href="/about/" img="https://cdn.mos.cms.futurecdn.net/iB3z4tNs8nig8Qn9WsfHCX.jpg" />
 		</div>
 	</section>
 

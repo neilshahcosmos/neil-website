@@ -2,6 +2,7 @@
 import type { GetStaticPaths } from "astro";
 import { getCollection, render } from "astro:content";
 import Base from '../../layouts/base.astro'
+import { fmt_date } from "../../lib/garden";
 
 export async function getStaticPaths() {
     const posts = await getCollection('thoughts');
@@ -26,9 +27,14 @@ const { Content } = await render(post);
         <!-- content -->
         <div class:list={['wrap', 'entry-inner', { 'has-cover': data.cover }]}>
             <header class="entry-head">
-                <a class="eyebrow">Thought</a>
+                <a class="eyebrow" href="/thoughts/">Thought</a>
                 <h1>{data.title}</h1>
                 <p class="description">{data.description}</p>
+                <div class="meta">
+                    <span class="dates">
+                        {fmt_date(data.date)}
+                    </span>
+                </div>
             </header>
             <div class="prose">
                 <Content />
@@ -40,5 +46,35 @@ const { Content } = await render(post);
 <style>
     .entry-inner {
         padding-top: 4rem;
+    }
+    .description {
+        font-size: var(--font-size-1);
+        color: var(--muted);
+        line-height: 1.5;
+        margin: 0.6rem 0 1.4rem;
+    }
+    .entry-head {
+        max-width: var(--prose);
+        margin-bottom: 3.0rem;
+    }
+    h1 {
+        font-size: var(--font-size-5);
+        font-weight: 400;
+        line-height: 1.05;
+        margin: 0.50rem 0.00 0.40rem;
+        letter-spacing: -0.02em;
+    }
+    .meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.50rem 1.00rem;
+        padding-block: 1.00rem;
+        border-block: 1px solid var(--border);
+    }
+    .dates {
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        color: var(--faint);
     }
 </style>

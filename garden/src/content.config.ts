@@ -7,11 +7,21 @@ import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 
+/*
+ * Growth stages:
+ *     nebula    - a loose cloud of an idea, unfinished
+ *     protostar - taking shape, mostly coherent, still changing
+ *     star      - mature and stable
+ */
+
+export const STAGES = [ 'nebula', 'protostar', 'star' ] as const;
+
 const common = {
     title: z.string(),
     description: z.string(),
     date: z.coerce.date(),
     updated: z.coerce.date().optional(),
+    stage: z.enum(STAGES).default('nebula'),
     cover: z.string().optional(),
 }
 
